@@ -559,8 +559,8 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 
 **Tujuan:** dunia visual yang tidak generik, tetap dalam topologi admin panel.
 **Skill:** impeccable `shape` → new-work (concept-seed + decision page Impeccable); top-design (signature moment), web-typography, refactoring-ui sebagai masukan; fase 4–6 create-website.
-- [ ] `/impeccable shape` untuk Overview (Persuade) + shell admin (Operate). Ronde wawancara 1 (maksimal 2).
-- [ ] new-work, karena belum ada otoritas visual: tulis **7 kandidat** dari dunia audiens (tidak semuanya dari alat/instrumen kerja; lihat aturan Impeccable), jalankan `impeccable concept-seed --scope direction --mode persuade`, lalu ikuti blok PRESENTATION yang dicetaknya. Bentuk admin panel = pinned. Pilihan diambil lewat **decision page Impeccable**:
+- [x] `/impeccable shape` untuk Overview (Persuade) + shell admin (Operate). Ronde wawancara 1 (maksimal 2).
+- [x] new-work, karena belum ada otoritas visual: tulis **7 kandidat** dari dunia audiens (tidak semuanya dari alat/instrumen kerja; lihat aturan Impeccable), jalankan `impeccable concept-seed --scope direction --mode persuade`, lalu ikuti blok PRESENTATION yang dicetaknya. Bentuk admin panel = pinned. Pilihan diambil lewat **decision page Impeccable**:
   1. Jalankan `impeccable serve-question --schema` untuk melihat bentuk payload, lalu tulis payload-nya:
      - arah yang ditugaskan di posisi pertama, lengkap dengan baris _raise_ dari challenger;
      - kartu IMPECCABLE'S PICK bila ada;
@@ -574,19 +574,21 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
   5. Image generation tidak tersedia, jadi setiap kartu memakai sketsa HTML first viewport + chip palet, tanpa toggle build path (jalurnya code-led).
   6. **Fallback (cara Impeccable):** bila `--start` keluar dengan exit 2, ajukan pilihan lewat AskUserQuestion. Bila halaman ditutup tanpa jawaban (exit 4), ajukan sekali lewat AskUserQuestion. Bila tetap tidak ada jawaban, **berhenti dan tunggu**. Aturan §0.2 menggantikan default Impeccable yang melanjutkan tanpa pengguna.
   7. Ronde ini dijalankan dari sesi yang berjalan di Mac Rahmat (Claude Code/Cursor lokal), karena browser di Mac tidak bisa membuka server `localhost` yang berjalan di container cloud.
-- [ ] Ringkas pelajaran §3 menjadi **pola wajib** (CV di atas, indeks, diagram arsitektur, filter, timeline), bukan gaya visual.
-- [ ] Tulis **direction contract** (THESIS, OWN-WORLD, STORY, FIRST VIEWPORT, FORM + seed ref, FINISH) ke surface brief via `impeccable surface-brief write`. Baca ulang untuk memastikan keenam blok ada.
-- [ ] top-design: tetapkan **signature moment** (yang akan di-screenshot orang), skor rubrik awal, easing kustom (ease/linear dilarang), custom cursor = tidak (opt-in).
-- [ ] web-typography: pasangan font self-host via `next/font` (< 200 KB total), skala fluid `clamp()`, body 16–18 px, measure 65ch, **angka tabular** untuk tabel/KPI, aman di zoom 200%. ❓ dukungan glyph Jepang bila nanti ada JA.
-- [ ] refactoring-ui: hierarki dalam **grayscale dulu**, skala spasi 4/8/16/24/32/48/64, palet 9 tingkat + abu-abu bernada, skala bayangan, satu aksi primer per section. Tema terang dan gelap; default ditentukan dari satu kalimat "adegan fisik" (siapa membuka, di mana, dalam cahaya apa).
-- [ ] Sketsa HTML first viewport untuk mobile 390 px dan desktop 1440 px.
+- [x] Ringkas pelajaran §3 menjadi **pola wajib** (CV di atas, indeks, diagram arsitektur, filter, timeline), bukan gaya visual.
+- [x] Tulis **direction contract** (THESIS, OWN-WORLD, STORY, FIRST VIEWPORT, FORM + seed ref, FINISH) ke surface brief via `impeccable surface-brief write`. Baca ulang untuk memastikan keenam blok ada.
+- [x] top-design: tetapkan **signature moment** (yang akan di-screenshot orang), skor rubrik awal, easing kustom (ease/linear dilarang), custom cursor = tidak (opt-in).
+- [x] web-typography: pasangan font self-host via `next/font` (< 200 KB total), skala fluid `clamp()`, body 16–18 px, measure 65ch, **angka tabular** untuk tabel/KPI, aman di zoom 200%. ❓ dukungan glyph Jepang bila nanti ada JA.
+- [x] refactoring-ui: hierarki dalam **grayscale dulu**, skala spasi 4/8/16/24/32/48/64, palet 9 tingkat + abu-abu bernada, skala bayangan, satu aksi primer per section. Tema terang dan gelap; default ditentukan dari satu kalimat "adegan fisik" (siapa membuka, di mana, dalam cahaya apa).
+- [x] Sketsa HTML first viewport untuk mobile 390 px dan desktop 1440 px.
+
+**Hasil Fase 3 (24 Okt 2026):** dunia **The Meishi Exchange** (名刺) dipilih lewat decision page (seed `seed:80a40aaf8476870a`, code-led); kontrak di `.impeccable/surfaces/src-app-page-tsx.md`; token `docs/design/tokens.css`; sketsa `docs/design/overview-sketch.html`; catatan dan audit `docs/DESIGN.md`. Critique dual-agent 22/32 → semua temuan P1/P2/minor diperbaiki, detector bersih. Rincian di §11.3.
 
 **Edge case (urut prioritas):**
-- 🔴 **Ronde decision page dijalankan dari sesi cloud.** Browser di Mac tidak bisa membuka `localhost` di container. Agent berhenti dan meminta sesi lokal; bila `--start` keluar dengan exit 2, pakai fallback AskUserQuestion (prosedur di atas).
-- 🟠 **Dua kali re-roll tanpa pilihan.** Sesuai Impeccable, tanyakan dulu kualitas apa yang kurang (lewat AskUserQuestion) sebelum re-roll ketiga.
-- 🟠 **Palet terpilih gagal kontras** WCAG AA (teks 4,5:1; teks besar dan elemen UI 3:1) di tema terang atau gelap. Token disesuaikan sebelum disetujui; cek kontras masuk syarat "token disetujui".
-- 🟠 **Font tidak punya glyph yang dibutuhkan** (huruf beraksen, nama lengkap, karakter Jepang bila JA nanti). Sediakan fallback stack eksplisit dan uji dengan teks nyata, bukan lorem ipsum.
-- 🟢 **Payload font melewati 200 KB.** Subset Latin + variable font; ukur di build.
+- ✅ 🔴 **Ronde decision page dijalankan dari sesi cloud.** (Dijalankan dari sesi lokal di Mac; browser bawaan memblokir iframe sketsa, jadi halaman dibuka di browser default lewat `open`.) Browser di Mac tidak bisa membuka `localhost` di container. Agent berhenti dan meminta sesi lokal; bila `--start` keluar dengan exit 2, pakai fallback AskUserQuestion (prosedur di atas).
+- ✅ 🟠 **Dua kali re-roll tanpa pilihan.** (Tidak terjadi: dipilih di ronde pertama.) Sesuai Impeccable, tanyakan dulu kualitas apa yang kurang (lewat AskUserQuestion) sebelum re-roll ketiga.
+- ✅ 🟠 **Palet terpilih gagal kontras** (2 pasangan gagal di draf pertama + cincin fokus gelap di meishi 1,70:1; semua diperbaiki dan diuji ulang, `docs/DESIGN.md` §5) WCAG AA (teks 4,5:1; teks besar dan elemen UI 3:1) di tema terang atau gelap. Token disesuaikan sebelum disetujui; cek kontras masuk syarat "token disetujui".
+- ✅ 🟠 **Font tidak punya glyph yang dibutuhkan** (diuji di browser dengan teks nyata + JP: semua ada; hanya "→" yang tidak ada di BIZ UDPGothic, jadi panah wajib SVG) (huruf beraksen, nama lengkap, karakter Jepang bila JA nanti). Sediakan fallback stack eksplisit dan uji dengan teks nyata, bukan lorem ipsum.
+- ✅ 🟢 **Payload font melewati 200 KB.** (slice latin 4 file = 75.968 byte; diukur ulang di build Fase 5) Subset Latin + variable font; ukur di build.
 
 **Gerbang:** impeccable `critique` pada sketsa. ponytail-review tidak relevan karena belum ada kode produksi.
 **❓ Pertanyaan:** arah visual mana yang dipilih (decision page Impeccable) · tema default (light/dark/system) · smooth scroll native atau library · tingkat animasi.
@@ -957,6 +959,11 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 | 2026-10-24 | Fase 2 (revisi sebelum commit): lokasi profil = Cikarang, West Java (lokasi sekarang); foto profesional di `content/media/avatar.jpg` (diperkecil ke 800 px, tanpa metadata GPS/kamera); highlight GCT (melanjutkan pekerjaan MINORI, memimpin freelancer dan anak magang untuk proyek AI internal per departemen) dan MINORI (Laravel, CodeIgniter lama, Next.js sejak 2026); web profile HTSI tampil **tanpa link** karena `pt-htsi.com` sekarang Astro 7 yang dibangun ulang orang lain | Jawaban Rahmat + `curl` (generator Astro v7.0.7) | 2 |
 | 2026-10-24 | Fase 2 (revisi): **main stack = Laravel, CodeIgniter, PHP, Next.js** (`skills.main`). Experience, About, CV, dan ringkasan stack Overview hanya menyebut keempatnya; teknologi lain baru dipelajari setahun terakhir, tetap tercantum di stack proyek yang memakainya (jujur per proyek) dan tampil di Skills sebagai "Used in projects". PolicySemVer dan portfolio ikut dihitung sebagai terbit publik bersama wedding | Jawaban Rahmat | 2 |
 | 2026-10-24 | Fase 2 (revisi): urutan unggulan SOBAT-PS → PolicySemVer → **Wedding** → NIKKE → Timetables → Portfolio (`sort_order` di seed, urutan di CV) | Jawaban Rahmat | 2 |
+| 2026-10-24 | Fase 3: wawancara shape: adegan fisik campur → tema ikut perangkat (kedua tema sama kuat); animasi hemat + 1 signature; scroll native; anti-goal = terlihat template shadcn, terlalu artsy sulit dipindai | Jawaban Rahmat | 3 |
+| 2026-10-24 | Fase 3: arah visual **The Meishi Exchange** (名刺; kartu THE ROLL, kandidat #5 dari 7, seed `seed:80a40aaf8476870a`), jalur code-led (tanpa image generation). Pick = Basic Design Document; challenger kompetitif = Event Display; 5 challenger ditolak menyumbang disiplin (`docs/DESIGN.md` §1) | Decision page Impeccable | 3 |
+| 2026-10-24 | Fase 3: font BIZ UDPGothic (teks) + BIZ UDGothic (angka/ID/tanggal fixed-pitch) karena BIZ UDPGothic **tidak punya `tnum`** (diukur); slice latin 74 KB; glyph JP teruji; "→" tidak ada → panah SVG. Palet 鼠/藍/朱 9 tingkat, 28 pasangan kontras AA lolos; meishi memakai token sendiri (fokus gelap 1,70 → 6,69:1) | Ukur di browser + skrip kontras | 3 |
+| 2026-10-24 | Fase 3 (critique): afiliasi "Software Engineer, Global Collabo Tech" tampil di meishi; pengalaman ditulis "4 yrs 6 mo" dari `experienceMonths`; one-liner versi tenang "Every private system here comes with its architecture diagram." (seed `profile.tagline`, CV, POSITIONING diperbarui); semua temuan critique (P1, P2, minor) diperbaiki di sketsa | Jawaban Rahmat | 3 |
+| 2026-10-24 | Fase 3: token dan direction contract **disetujui**; `.claude/launch.json` (server sketsa) dihapus, tidak di-stage. **Kriteria "Selesai bila" Fase 3 terpenuhi** | Jawaban Rahmat | 3 |
 
 ---
 

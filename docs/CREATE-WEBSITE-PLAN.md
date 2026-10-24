@@ -23,9 +23,9 @@ Dimulai 24 Okt 2026 (Fase 1 `docs/PLAN.md`). Tracker ini memetakan sepuluh fase 
 | 1     | one-page-marketing       | done                                                                | MARKETING.md, CUSTOMER.md  | 1            | 2026-10-24 |
 | 2     | storybrand-messaging     | done                                                                | POSITIONING.md, WEBSITE.md | 2            | 2026-10-24 |
 | 3     | made-to-stick            | done                                                                | POSITIONING.md, WEBSITE.md | 2            | 2026-10-24 |
-| 4     | top-design               | pending                                                             | DESIGN.md                  | 3            |            |
-| 5     | web-typography           | pending                                                             | DESIGN.md                  | 3            |            |
-| 6     | refactoring-ui           | pending                                                             | DESIGN.md                  | 3, 5         |            |
+| 4     | top-design               | done                                                                | DESIGN.md                  | 3            | 2026-10-24 |
+| 5     | web-typography           | done                                                                | DESIGN.md                  | 3            | 2026-10-24 |
+| 6     | refactoring-ui           | in-progress (token disetujui Fase 3; komponen di Fase 5)            | DESIGN.md                  | 3, 5         | 2026-10-24 |
 | 7     | ux-heuristics            | pending                                                             | DESIGN.md                  | 6, 7, 11     |            |
 | 8     | cro-methodology          | pending (tanpa A/B test: tabel O/CO + 5-second test dengan 3–5 orang) | WEBSITE.md, EXPERIMENTS.md | 7            |            |
 | 9     | scorecard-marketing      | skipped: satu CTA langsung sudah cukup, tidak ada funnel nurture    | —                          | —            | 2026-10-24 |
@@ -47,6 +47,7 @@ Statuses: pending · in-progress · awaiting-evidence · done · deferred: <reas
 | 2026-10-24 | 9     | Dilewati                                                                                          | `docs/PLAN.md` §4.3                                           |
 | 2026-10-24 | 2     | One-liner #1; frasa stack Jepang dibuang; bukti Sinatra = SOBAT-PS live                            | Dipilih Rahmat                                                |
 | 2026-10-24 | 8     | Tanpa A/B test                                                                                    | Trafik terlalu kecil (`docs/PLAN.md` §4.3)                    |
+| 2026-10-24 | 4–6   | Dunia visual The Meishi Exchange; BIZ UD Gothic; palet 鼠/藍/朱; flip kartu = signature moment (docs/DESIGN.md) | Decision page Impeccable + jawaban Rahmat |
 
 ## Next Actions
 

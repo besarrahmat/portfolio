@@ -5,5 +5,18 @@
       "maxFindings": 5,
       "maxChars": 8000
     }
+  },
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": ["docs/design/overview-sketch.html"],
+        "createdAt": "2026-10-24T10:33:27.645Z",
+        "reason": "agent: .face padding is clamp(16px, 4.2%, 32px); computed 16px at 288px card width and more above; static scan cannot resolve the % clamp"
+      }
+    ]
   }
 }

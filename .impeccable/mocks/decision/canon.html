@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Category standard — first viewport sketch</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 390px; height: 844px; overflow: hidden; background: #F4F4F5; color: #18181B; font-family: system-ui, sans-serif; }
+  .bar { height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: #fff; border-bottom: 1px solid #E4E4E7; font-size: 14px; }
+  .btn { background: #2563EB; color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  main { padding: 20px 16px; }
+  h1 { font-size: 26px; }
+  p { color: #52525B; font-size: 14px; margin-top: 6px; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .kpi { background: #fff; border: 1px solid #E4E4E7; border-radius: 12px; padding: 14px; font-size: 12px; color: #52525B; }
+  .kpi b { display: block; font-size: 24px; color: #18181B; margin-top: 4px; }
+  .list { margin-top: 20px; background: #fff; border: 1px solid #E4E4E7; border-radius: 12px; }
+  .list div { padding: 14px; border-bottom: 1px solid #E4E4E7; font-size: 14px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+  <div class="bar"><span>☰ Overview</span><span class="btn">Download CV</span></div>
+  <main>
+    <h1>Besar Rachmat Ikhsan Pambudi</h1>
+    <p>Full-stack web developer · Cikarang, West Java</p>
+    <div class="kpis">
+      <div class="kpi">Experience<b>54 mo</b></div>
+      <div class="kpi">Featured<b>6</b></div>
+      <div class="kpi">PolicySemVer<b>v1.0.1</b></div>
+      <div class="kpi">Certifications<b>10</b></div>
+    </div>
+    <div class="list"><div>SOBAT-PS <span>Live</span></div><div>PolicySemVer <span>Public</span></div><div>Wedding <span>Archive</span></div></div>
+  </main>
+</body>
+</html>

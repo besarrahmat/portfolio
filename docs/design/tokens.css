@@ -1,0 +1,196 @@
+/*
+ * Draft design tokens — Fase 3 (docs/PLAN.md), world: The Meishi Exchange.
+ * Not imported by the app yet; Fase 5 moves these into src/app/globals.css (Tailwind 4 @theme).
+ * Contrast of every text/UI pair is recorded in docs/DESIGN.md § Tokens.
+ */
+
+/* Fonts: self-hosted in the app via next/font/google (latin subset ≈ 74 KB for all four files).
+   The sketch loads the same faces from Google Fonts. JP glyphs fall back to the system Gothic. */
+
+:root {
+  /* ── Palettes (9 steps). Every tone has a job; a new one needs a stated job. ── */
+  /* 鼠 nezumi — cool, blue-tinted neutral */
+  --nezumi-50: #f5f7f9;
+  --nezumi-100: #e9edf1;
+  --nezumi-200: #d6dde4;
+  --nezumi-300: #b9c3ce;
+  --nezumi-400: #8e9aa8;
+  --nezumi-500: #6a7685;
+  --nezumi-600: #4f5a68;
+  --nezumi-700: #3a4350;
+  --nezumi-800: #262c36;
+  --nezumi-900: #16191e;
+  /* 藍 ai — indigo, the dark table and the focus ring */
+  --ai-50: #eef2fa;
+  --ai-100: #d8e0f2;
+  --ai-200: #b0c0e2;
+  --ai-300: #8299c9;
+  --ai-400: #5873ac;
+  --ai-500: #3c568f;
+  --ai-600: #2c4174;
+  --ai-700: #22325a;
+  --ai-800: #1b2744;
+  --ai-900: #131b30;
+  /* 朱 shu — vermilion, the single signal: Download CV and the Live state only */
+  --shu-50: #fdf0ec;
+  --shu-100: #fadbd2;
+  --shu-200: #f4b5a3;
+  --shu-300: #ec8a6f;
+  --shu-400: #e46445;
+  --shu-500: #d9472a;
+  --shu-600: #be3620;
+  --shu-700: #9a2a19;
+  --shu-800: #742014;
+  --shu-900: #4f160e;
+
+  /* The meishi is printed stock in both themes: it is an object, not a surface. */
+  --meishi: #f6f7f5;
+  --meishi-ink: var(--nezumi-900);
+  --meishi-ink-3: var(--nezumi-600);
+  /* Scoped onto .meishi so the card renders identically in both themes (dark focus ring was 1.70:1 on the card). */
+  --meishi-focus: var(--ai-500); /* 6.69:1 on the card */
+  --meishi-line: var(--nezumi-500); /* 4.30:1 on the card */
+  --meishi-rule: rgb(22 25 30 / 0.14);
+
+  /* ── Semantic roles, light (default when the device asks for light) ── */
+  --table: var(--nezumi-200); /* page ground */
+  --stock: #f6f7f5; /* cards and sheets */
+  --ink: var(--nezumi-900); /* primary text */
+  --ink-2: var(--nezumi-700); /* secondary text */
+  --ink-3: var(--nezumi-600); /* labels, meta; AA on stock and table */
+  --rule: rgb(22 25 30 / 0.14); /* hairline trim, dividers (decorative) */
+  --line-strong: var(--nezumi-500); /* input and control borders, 3:1 */
+  --signal: var(--shu-600); /* fill behind white text */
+  --on-signal: #ffffff;
+  --signal-text: var(--shu-600); /* Live label on stock */
+  --focus: var(--ai-500);
+
+  /* ── Type ── */
+  --font-text:
+    "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP",
+    system-ui, sans-serif;
+  --font-figure:
+    "BIZ UDGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
+    ui-monospace, monospace;
+  /* Fluid between 390 px and 1440 px viewports; rem parts keep 200% zoom working. */
+  --text-xs: 0.75rem; /* 12 fine print, never below */
+  --text-sm: 0.875rem; /* 14 labels, table meta */
+  --text-base: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem); /* 16 → 17 body */
+  --text-lg: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem); /* 18 → 20 */
+  --text-xl: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem); /* 20 → 24 */
+  --text-2xl: clamp(1.5rem, 1.314rem + 0.762vw, 2rem); /* 24 → 32 one-liner */
+  --text-3xl: clamp(
+    1.875rem,
+    1.55rem +
+    1.333vw,
+    2.75rem
+  ); /* 30 → 44 page titles */
+  --text-name: clamp(
+    1.75rem,
+    1.193rem +
+    2.286vw,
+    3.25rem
+  ); /* 28 → 52 the name on the card */
+  --leading-tight: 1.1;
+  --leading-heading: 1.2;
+  --leading-ui: 1.4;
+  --leading-body: 1.6;
+  --tracking-name: -0.01em;
+  --tracking-label: 0.08em;
+  --measure: 65ch;
+
+  /* ── Space (only these) ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Shape and depth: trimmed card corners, no pills; offset + soft blur ── */
+  --radius-card: 3px;
+  --radius-control: 2px;
+  --card-ratio: 91 / 55; /* Japanese meishi, 91 × 55 mm */
+  --shadow-flat: 0 1px 0 rgb(22 25 30 / 0.08); /* records lying flat on the table */
+  --shadow-card:
+    0 1px 0 rgb(22 25 30 / 0.1), 0 10px 22px -12px rgb(22 25 30 / 0.35);
+  --shadow-lift:
+    0 1px 0 rgb(22 25 30 / 0.1), 0 22px 36px -14px rgb(22 25 30 / 0.45);
+  --shadow-float:
+    0 2px 4px rgb(22 25 30 / 0.12), 0 28px 48px -16px rgb(22 25 30 / 0.5);
+
+  /* ── Motion: no ease/linear; one authored moment (the flip) ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-flip: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-feedback: 120ms;
+  --dur-ui: 200ms;
+  --dur-flip: 640ms;
+
+  color-scheme: light dark;
+}
+
+/* Dark: the indigo meeting table; working sheets become dark stock with light ink. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --table: var(--ai-900);
+    --stock: var(--ai-800);
+    --ink: var(--ai-50);
+    --ink-2: var(--ai-200);
+    --ink-3: var(--ai-300);
+    --rule: rgb(238 242 250 / 0.14);
+    --line-strong: var(--ai-400);
+    --signal-text: var(--shu-300);
+    --focus: var(--ai-200);
+    --shadow-flat: 0 1px 0 rgb(0 0 0 / 0.3);
+    --shadow-card: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 24px -12px rgb(0 0 0 / 0.7);
+    --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 24px 40px -14px rgb(0 0 0 / 0.8);
+    --shadow-float:
+      0 2px 4px rgb(0 0 0 / 0.3), 0 28px 48px -16px rgb(0 0 0 / 0.85);
+  }
+}
+:root[data-theme="dark"] {
+  --table: var(--ai-900);
+  --stock: var(--ai-800);
+  --ink: var(--ai-50);
+  --ink-2: var(--ai-200);
+  --ink-3: var(--ai-300);
+  --rule: rgb(238 242 250 / 0.14);
+  --line-strong: var(--ai-400);
+  --signal-text: var(--shu-300);
+  --focus: var(--ai-200);
+  --shadow-flat: 0 1px 0 rgb(0 0 0 / 0.3);
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 24px -12px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 24px 40px -14px rgb(0 0 0 / 0.8);
+  --shadow-float:
+    0 2px 4px rgb(0 0 0 / 0.3), 0 28px 48px -16px rgb(0 0 0 / 0.85);
+}
+
+/* Browser surfaces belong to the design too. */
+::selection {
+  background: var(--ai-200);
+  color: var(--nezumi-900);
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-control);
+}
+html {
+  accent-color: var(--signal);
+  caret-color: var(--focus);
+}
+/* Fixed-pitch figures only where columns must align (BIZ UDPGothic has no tnum feature). */
+.figure,
+time,
+td {
+  font-family: var(--font-figure);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-flip: 160ms;
+  }
+}
