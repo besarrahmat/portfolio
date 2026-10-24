@@ -1,0 +1,191 @@
+[
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "category": "language",
+    "icon": "typescript",
+    "main": false
+  },
+  {
+    "id": "php",
+    "name": "PHP",
+    "category": "language",
+    "icon": "php",
+    "main": true
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "category": "framework",
+    "icon": "nextdotjs",
+    "main": true
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "category": "framework",
+    "icon": "react",
+    "main": false
+  },
+  {
+    "id": "sveltekit",
+    "name": "SvelteKit",
+    "category": "framework",
+    "icon": "svelte",
+    "main": false
+  },
+  {
+    "id": "hono",
+    "name": "Hono",
+    "category": "framework",
+    "icon": "hono",
+    "main": false
+  },
+  {
+    "id": "nestjs",
+    "name": "NestJS",
+    "category": "framework",
+    "icon": "nestjs",
+    "main": false
+  },
+  {
+    "id": "laravel",
+    "name": "Laravel",
+    "category": "framework",
+    "icon": "laravel",
+    "main": true
+  },
+  {
+    "id": "lumen",
+    "name": "Lumen",
+    "category": "framework",
+    "icon": "lumen",
+    "main": false
+  },
+  {
+    "id": "codeigniter",
+    "name": "CodeIgniter",
+    "category": "framework",
+    "icon": "codeigniter",
+    "main": true
+  },
+  {
+    "id": "filament",
+    "name": "Filament",
+    "category": "framework",
+    "icon": null,
+    "main": false
+  },
+  {
+    "id": "tailwindcss",
+    "name": "Tailwind CSS",
+    "category": "framework",
+    "icon": "tailwindcss",
+    "main": false
+  },
+  {
+    "id": "bootstrap",
+    "name": "Bootstrap",
+    "category": "framework",
+    "icon": "bootstrap",
+    "main": false
+  },
+  {
+    "id": "wordpress",
+    "name": "WordPress",
+    "category": "tool",
+    "icon": "wordpress",
+    "main": false
+  },
+  {
+    "id": "brizy",
+    "name": "Brizy",
+    "category": "tool",
+    "icon": null,
+    "main": false
+  },
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL",
+    "category": "database",
+    "icon": "postgresql",
+    "main": false
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase",
+    "category": "database",
+    "icon": "supabase",
+    "main": false
+  },
+  {
+    "id": "d1",
+    "name": "Cloudflare D1",
+    "category": "database",
+    "icon": "cloudflare",
+    "main": false
+  },
+  {
+    "id": "drizzle",
+    "name": "Drizzle ORM",
+    "category": "tool",
+    "icon": "drizzle",
+    "main": false
+  },
+  {
+    "id": "prisma",
+    "name": "Prisma",
+    "category": "tool",
+    "icon": "prisma",
+    "main": false
+  },
+  {
+    "id": "cloudflare-workers",
+    "name": "Cloudflare Workers",
+    "category": "infra",
+    "icon": "cloudflareworkers",
+    "main": false
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "category": "infra",
+    "icon": "vercel",
+    "main": false
+  },
+  {
+    "id": "railway",
+    "name": "Railway",
+    "category": "infra",
+    "icon": "railway",
+    "main": false
+  },
+  {
+    "id": "laravel-cloud",
+    "name": "Laravel Cloud",
+    "category": "infra",
+    "icon": "laravel",
+    "main": false
+  },
+  {
+    "id": "github-actions",
+    "name": "GitHub Actions",
+    "category": "infra",
+    "icon": "githubactions",
+    "main": false
+  },
+  {
+    "id": "vitest",
+    "name": "Vitest",
+    "category": "tool",
+    "icon": "vitest",
+    "main": false
+  },
+  {
+    "id": "biome",
+    "name": "Biome",
+    "category": "tool",
+    "icon": "biome",
+    "main": false
+  }
+]

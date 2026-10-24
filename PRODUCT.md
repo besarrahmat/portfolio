@@ -26,7 +26,7 @@ Portofolio pribadi Besar Rachmat Ikhsan Pambudi yang tampil seperti **admin pane
 
 "The only portfolio that is itself the proof: an admin panel on the stack Japanese teams ship (Next.js 16 + Hono + D1 on Workers), with an architecture diagram for every private system."
 
-Kalimat di atas adalah positioning internal. **Bila dimunculkan di frontend, daftar tech stack dalam kurung dihapus** (✅ Rahmat, 24 Okt 2026): "The only portfolio that is itself the proof: an admin panel on the stack Japanese teams ship, with an architecture diagram for every private system." Stack ditunjukkan lewat halaman proyek `portfolio`, bukan di kalimat ini.
+Kalimat di atas adalah positioning internal. **Bila dimunculkan di frontend, daftar tech stack dalam kurung dan frasa "the stack Japanese teams ship" dihapus** (✅ Rahmat, 24 Okt 2026; frasa dibuang di Fase 2 karena hanya bersandar pada artikel editorial): "The only portfolio that is itself the proof: an admin panel you can inspect, with an architecture diagram for every private system." Stack ditunjukkan lewat halaman proyek `portfolio`, bukan di kalimat ini.
 
 Mekanismenya bisa dicek pengunjung: situs ini sendiri adalah sistem produksi (D1, API publik read-only, area manage terproteksi) dan termasuk proyek unggulan. Proyek privat yang tidak bisa diberi link kode dijelaskan lewat diagram arsitektur yang dirender dari data, bukan screenshot.
 

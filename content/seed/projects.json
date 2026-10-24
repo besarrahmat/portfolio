@@ -1,0 +1,625 @@
+[
+  {
+    "id": "sobat-ps",
+    "slug": "sobat-ps",
+    "title": "SOBAT-PS",
+    "tagline": "A government information system still live on kaltaraprov.go.id, three years after delivery.",
+    "summary": "The social forestry and community empowerment information system of the Forestry Office of North Kalimantan Province: forest-farmer groups, their business units, assistance programs, grant recipients, and aid proposals in one place.",
+    "role": "Contract web developer: built the system, reviewed code, debugged, and wrote training documentation.",
+    "experience_id": "dishut-kaltara",
+    "period_start": "2022-04",
+    "period_end": "2023-09",
+    "kind": "work",
+    "links": [
+      {
+        "label": "Live site",
+        "url": "https://sobat-ps.kaltaraprov.go.id/",
+        "kind": "live",
+        "visibility": "public"
+      },
+      {
+        "label": "Laravel 10 rebuild",
+        "url": "https://github.com/besarrahmat/sobatps",
+        "kind": "repo",
+        "visibility": "public"
+      },
+      {
+        "label": "Internship version (Laravel 8)",
+        "kind": "repo",
+        "visibility": "private"
+      },
+      {
+        "label": "Thesis API (Lumen 10 + JWT)",
+        "kind": "repo",
+        "visibility": "private"
+      }
+    ],
+    "state": "live",
+    "status": "published",
+    "case_study": {
+      "problem": "The Forestry Office needed one place to track social forestry groups, their business units, assistance programs, grant recipients, and the aid proposals members submit.",
+      "role": "Delivered the system under contract (April 2022 to September 2023), then carried it through an internship version and a thesis API, and rebuilt it on Laravel 10.",
+      "decisions": [
+        "Laravel with server-rendered Bootstrap views and DataTables for the list and detail screens office staff use.",
+        "A separate Lumen 10 API with JWT authentication for the thesis, kept apart from the web app.",
+        "A Laravel 10 rebuild of the website with improvements."
+      ],
+      "outcome": "The system is still live on the provincial government domain (checked 24 October 2026)."
+    },
+    "metrics": [
+      {
+        "label": "Repositories",
+        "value": 3,
+        "unit": null,
+        "source": "GitHub: sobatps, pkl_sobatps_v2, skripsi_sobatps_api"
+      }
+    ],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "staff",
+          "label": "Office staff & group members",
+          "kind": "actor"
+        },
+        {
+          "id": "web",
+          "label": "Laravel web app (Bootstrap, DataTables)",
+          "kind": "service"
+        },
+        {
+          "id": "db",
+          "label": "Relational database",
+          "kind": "database"
+        },
+        {
+          "id": "files",
+          "label": "Public file storage",
+          "kind": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "from": "staff",
+          "to": "web",
+          "label": "HTTPS"
+        },
+        {
+          "from": "web",
+          "to": "db",
+          "label": "Eloquent"
+        },
+        {
+          "from": "web",
+          "to": "files",
+          "label": "uploads"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 1
+  },
+  {
+    "id": "policy-semver",
+    "slug": "policy-semver",
+    "title": "PolicySemVer",
+    "tagline": "A versioning GitHub Action and npm CLI, v1.0.1, listed on GitHub Marketplace.",
+    "summary": "Policy-first semantic versioning for deployed apps: the major version comes from an environment variable, a pull request gets a dry-run comment with the next version, and the version, tag, and release are written only after merge.",
+    "role": "Sole author: design, implementation, tests, docs, and releases.",
+    "experience_id": null,
+    "period_start": "2026-08",
+    "period_end": null,
+    "kind": "personal",
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/besarrahmat/policy-semver",
+        "kind": "repo",
+        "visibility": "public"
+      },
+      {
+        "label": "GitHub Marketplace",
+        "url": "https://github.com/marketplace/actions/policysemver",
+        "kind": "package",
+        "visibility": "public"
+      },
+      {
+        "label": "npm",
+        "url": "https://www.npmjs.com/package/policy-semver",
+        "kind": "package",
+        "visibility": "public"
+      }
+    ],
+    "state": "live",
+    "status": "published",
+    "case_study": {
+      "problem": "Release tools built for library monorepos fit deployed apps poorly: apps need a manual major version, commits like 'feat & fix:', and a way to sync prod back to dev without a version bump.",
+      "role": "Designed and built the core library, the CLI, and the GitHub Action, then published all three.",
+      "decisions": [
+        "Three artifacts from one pnpm monorepo: @policy-semver/core, the policy-semver CLI, and the Action.",
+        "The Action runs committed dist/index.js, so consumers install no runtime dependencies.",
+        "Major bumps stay manual through APP_VERSION_MAJOR; pull requests only get a sticky dry-run comment, and writes happen after merge.",
+        "Unknown config keys are rejected, and the commit classifier is covered by ranked fixtures (Vitest)."
+      ],
+      "outcome": "v1.0.1 released on 2 September 2026, listed on GitHub Marketplace and published to npm."
+    },
+    "metrics": [
+      {
+        "label": "Latest release",
+        "value": "1.0.1",
+        "unit": null,
+        "source": "npm view policy-semver version; GitHub releases"
+      },
+      {
+        "label": "Published artifacts",
+        "value": 3,
+        "unit": null,
+        "source": "README: Install channels"
+      }
+    ],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "pr",
+          "label": "Pull request to main",
+          "kind": "actor"
+        },
+        {
+          "id": "action",
+          "label": "GitHub Action (dist/index.js)",
+          "kind": "service"
+        },
+        {
+          "id": "cli",
+          "label": "policy-semver CLI (npm)",
+          "kind": "service"
+        },
+        {
+          "id": "core",
+          "label": "@policy-semver/core",
+          "kind": "library"
+        },
+        {
+          "id": "repo",
+          "label": "VERSION, tag, GitHub Release",
+          "kind": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "from": "pr",
+          "to": "action",
+          "label": "dry-run comment"
+        },
+        {
+          "from": "action",
+          "to": "core",
+          "label": "classify + bump"
+        },
+        {
+          "from": "cli",
+          "to": "core",
+          "label": "classify + bump"
+        },
+        {
+          "from": "action",
+          "to": "repo",
+          "label": "write after merge"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 2
+  },
+  {
+    "id": "wedding",
+    "slug": "wedding-invitation",
+    "title": "Wedding Invitation",
+    "tagline": "An invitation with RSVP and guest check-in, turned into a static archive after the event.",
+    "summary": "A digital wedding invitation with personalized guest links, RSVP, a guestbook, and an admin panel for check-in. After the wedding it became a read-only static archive and the backend was retired.",
+    "role": "Sole developer of the invitation and its admin backend.",
+    "experience_id": null,
+    "period_start": "2026-03",
+    "period_end": "2026-10",
+    "kind": "personal",
+    "links": [
+      {
+        "label": "Invitation (Next.js)",
+        "kind": "repo",
+        "visibility": "private"
+      },
+      {
+        "label": "Admin backend (Laravel)",
+        "kind": "repo",
+        "visibility": "private"
+      }
+    ],
+    "state": "archived",
+    "status": "published",
+    "case_study": {
+      "problem": "An invitation that guests open once, on their phones, must load fast, handle retries without duplicate RSVPs, and protect guest and gift details.",
+      "role": "Built the Next.js invitation, the Laravel + Filament admin with a check-in flow, and the switch to a static archive.",
+      "decisions": [
+        "RSVP and guestbook writes carry an Idempotency-Key header; in-flight conflicts return 409 instead of creating duplicates.",
+        "A strict Content Security Policy with per-directive allowlists, and the Supabase service key kept server-only.",
+        "Below-the-fold sections load with next/dynamic; only the hero, the invitation, and the music player are static imports.",
+        "After the event, production data was frozen into a server-only snapshot, the page was prerendered, and the backend was retired, so guest names and account numbers no longer reach the browser."
+      ],
+      "outcome": "The invitation now runs as a static archive with a single remaining function; no guest data is published."
+    },
+    "metrics": [],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "guest",
+          "label": "Guest",
+          "kind": "actor"
+        },
+        {
+          "id": "staff",
+          "label": "Check-in staff",
+          "kind": "actor"
+        },
+        {
+          "id": "web",
+          "label": "Next.js 16 + next-intl (Vercel)",
+          "kind": "service"
+        },
+        {
+          "id": "admin",
+          "label": "Laravel 13 + Filament 5 (retired)",
+          "kind": "service"
+        },
+        {
+          "id": "db",
+          "label": "Supabase Postgres + Storage (retired)",
+          "kind": "database"
+        }
+      ],
+      "edges": [
+        {
+          "from": "guest",
+          "to": "web",
+          "label": "HTTPS"
+        },
+        {
+          "from": "web",
+          "to": "admin",
+          "label": "RSVP API, Idempotency-Key"
+        },
+        {
+          "from": "staff",
+          "to": "admin",
+          "label": "check-in"
+        },
+        {
+          "from": "admin",
+          "to": "db",
+          "label": "read/write"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 3
+  },
+  {
+    "id": "nikke-calculator",
+    "slug": "nikke-calculator",
+    "title": "NIKKE Progression Calculator",
+    "tagline": "Three services, one database: a Next.js app, a NestJS API, and a Laravel admin panel.",
+    "summary": "A progression calculator for the game NIKKE. Players plan resources and skill costs; an admin panel maintains the master data the calculator uses.",
+    "role": "Sole developer of all three services.",
+    "experience_id": null,
+    "period_start": "2026-06",
+    "period_end": null,
+    "kind": "personal",
+    "links": [
+      {
+        "label": "Frontend + API monorepo",
+        "kind": "repo",
+        "visibility": "private"
+      },
+      {
+        "label": "Admin panel",
+        "kind": "repo",
+        "visibility": "private"
+      }
+    ],
+    "state": "in_progress",
+    "status": "published",
+    "case_study": {
+      "problem": "A calculator, its API, and an admin panel for master data each fit a different framework and host, but they must agree on one set of data.",
+      "role": "Designed the split into three services and built each one.",
+      "decisions": [
+        "The NestJS API owns the schema through Prisma migrations; the Laravel admin only reads and writes rows and never migrates Prisma-owned tables.",
+        "A guard blocks destructive Artisan commands (migrate:fresh, db:wipe) when they target the production database.",
+        "Each service deploys natively to its host (Vercel, Railway, Laravel Cloud), with path-filtered CI per package.",
+        "The admin panel connects through the Supabase pooler instead of a managed database, so all three services share one Postgres."
+      ],
+      "outcome": "Three independently deployable services sharing one Supabase Postgres database."
+    },
+    "metrics": [
+      {
+        "label": "Services",
+        "value": 3,
+        "unit": null,
+        "source": "README nikke-calculator-nextjs"
+      },
+      {
+        "label": "Shared databases",
+        "value": 1,
+        "unit": null,
+        "source": "README nikke-calculator-laravel"
+      }
+    ],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "player",
+          "label": "Player",
+          "kind": "actor"
+        },
+        {
+          "id": "admin-user",
+          "label": "Admin",
+          "kind": "actor"
+        },
+        {
+          "id": "frontend",
+          "label": "Next.js 16 app (Vercel)",
+          "kind": "service"
+        },
+        {
+          "id": "api",
+          "label": "NestJS 11 API + Prisma 7 (Railway)",
+          "kind": "service"
+        },
+        {
+          "id": "admin",
+          "label": "Laravel 13 + Filament 5 (Laravel Cloud)",
+          "kind": "service"
+        },
+        {
+          "id": "db",
+          "label": "Supabase Postgres",
+          "kind": "database"
+        }
+      ],
+      "edges": [
+        {
+          "from": "player",
+          "to": "frontend",
+          "label": "HTTPS"
+        },
+        {
+          "from": "frontend",
+          "to": "api",
+          "label": "REST"
+        },
+        {
+          "from": "api",
+          "to": "db",
+          "label": "owns schema"
+        },
+        {
+          "from": "admin-user",
+          "to": "admin",
+          "label": "HTTPS"
+        },
+        {
+          "from": "admin",
+          "to": "db",
+          "label": "pooler, rows only"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 4
+  },
+  {
+    "id": "timetables",
+    "slug": "timetables",
+    "title": "Timetables",
+    "tagline": "Multi-stage festival schedules with clash detection, in the visitor's own time zone.",
+    "summary": "Festival schedules across several stages: a timeline per stage, a personal agenda of favorite slots with clash detection, times shown in the device's time zone, and bulk import for organizers.",
+    "role": "Sole developer.",
+    "experience_id": null,
+    "period_start": "2026-07",
+    "period_end": null,
+    "kind": "personal",
+    "links": [
+      {
+        "label": "Source",
+        "kind": "repo",
+        "visibility": "private"
+      }
+    ],
+    "state": "in_progress",
+    "status": "published",
+    "case_study": {
+      "problem": "Festival-goers juggle overlapping sets on several stages, often across time zones, and organizers need to enter hundreds of slots quickly.",
+      "role": "Built v1 in SvelteKit, then started a v2 rewrite in Next.js 16 on Cloudflare.",
+      "decisions": [
+        "v1 (SvelteKit on Cloudflare Pages + D1): timeline and agenda views, favorites, clash detection, shareable URL state, PWA, and a manage area with text and CSV bulk import that previews valid and failed rows before saving.",
+        "v2 moves to Next.js 16 + OpenNext on Cloudflare Workers with Drizzle + D1, built on the open-source Studio Admin template for the dashboard shell.",
+        "Time-zone handling lives in small tested utilities, with check scripts for parsing, streams, and time zones."
+      ],
+      "outcome": "v1 was feature-complete in July 2026; v2 is in progress. Its manage-area pattern is the basis for this portfolio's manage area."
+    },
+    "metrics": [],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "visitor",
+          "label": "Festival-goer",
+          "kind": "actor"
+        },
+        {
+          "id": "organizer",
+          "label": "Organizer",
+          "kind": "actor"
+        },
+        {
+          "id": "worker",
+          "label": "Next.js 16 on Workers (OpenNext)",
+          "kind": "service"
+        },
+        {
+          "id": "manage",
+          "label": "Manage area (bulk import)",
+          "kind": "service"
+        },
+        {
+          "id": "db",
+          "label": "Cloudflare D1 (Drizzle)",
+          "kind": "database"
+        }
+      ],
+      "edges": [
+        {
+          "from": "visitor",
+          "to": "worker",
+          "label": "HTTPS"
+        },
+        {
+          "from": "organizer",
+          "to": "manage",
+          "label": "secret path"
+        },
+        {
+          "from": "worker",
+          "to": "db",
+          "label": "read"
+        },
+        {
+          "from": "manage",
+          "to": "db",
+          "label": "write"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 5
+  },
+  {
+    "id": "portfolio",
+    "slug": "portfolio",
+    "title": "This portfolio",
+    "tagline": "An admin panel you can inspect, with an architecture diagram for every private system.",
+    "summary": "This site: a public admin panel without login, a read-only public API, and a protected manage area for content, running on Cloudflare Workers.",
+    "role": "Sole developer.",
+    "experience_id": null,
+    "period_start": "2026-10",
+    "period_end": null,
+    "kind": "personal",
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/besarrahmat/portfolio",
+        "kind": "repo",
+        "visibility": "public"
+      },
+      {
+        "label": "Live site",
+        "url": "https://portfolio.besarrahmat.workers.dev",
+        "kind": "live",
+        "visibility": "public"
+      }
+    ],
+    "state": "in_progress",
+    "status": "published",
+    "case_study": {
+      "problem": "A tech lead cannot read a candidate's private code, so the portfolio itself has to be a system worth inspecting.",
+      "role": "Planned, designed, built, and deployed the site.",
+      "decisions": [
+        "Next.js 16 + Hono + Drizzle on Cloudflare Workers through OpenNext, with D1 for content and R2 for files.",
+        "While building it, every page hung after the first content update. The cause was a cache bug between Next.js 16.4 and Workers (opennextjs-cloudflare#1464, vercel/next.js#100345); the cache was removed and pages read straight from D1 on every request.",
+        "The manage area sits behind a secret runtime path, Cloudflare Access, and a server-side check on every action, so the repository can stay public."
+      ],
+      "outcome": "Live on Cloudflare Workers. Performance numbers are added from real measurements before launch."
+    },
+    "metrics": [],
+    "architecture": {
+      "nodes": [
+        {
+          "id": "visitor",
+          "label": "Visitor",
+          "kind": "actor"
+        },
+        {
+          "id": "owner",
+          "label": "Owner",
+          "kind": "actor"
+        },
+        {
+          "id": "edge",
+          "label": "Cloudflare (DNS, WAF, Access)",
+          "kind": "service"
+        },
+        {
+          "id": "worker",
+          "label": "Next.js 16 + Hono on Workers (OpenNext)",
+          "kind": "service"
+        },
+        {
+          "id": "db",
+          "label": "Cloudflare D1 (Drizzle)",
+          "kind": "database"
+        },
+        {
+          "id": "r2",
+          "label": "Cloudflare R2 (CV, images)",
+          "kind": "storage"
+        }
+      ],
+      "edges": [
+        {
+          "from": "visitor",
+          "to": "edge",
+          "label": "HTTPS"
+        },
+        {
+          "from": "owner",
+          "to": "edge",
+          "label": "Access login"
+        },
+        {
+          "from": "edge",
+          "to": "worker",
+          "label": "pages, /api/v1, manage"
+        },
+        {
+          "from": "worker",
+          "to": "db",
+          "label": "read/write"
+        },
+        {
+          "from": "worker",
+          "to": "r2",
+          "label": "files"
+        }
+      ]
+    },
+    "featured": true,
+    "sort_order": 6
+  },
+  {
+    "id": "htsi-web-profile",
+    "slug": "htsi-web-profile",
+    "title": "PT HTSI web profile",
+    "tagline": "Company website and service quotation requests on WordPress.",
+    "summary": "The company website of PT Heat Transfer Solutions Indonesia, built with WordPress and Brizy (2022-2023), including a system for receiving service quotation requests.",
+    "role": "Contract web developer.",
+    "experience_id": "htsi",
+    "period_start": "2022-07",
+    "period_end": "2023-10",
+    "kind": "work",
+    "links": [],
+    "state": "archived",
+    "status": "published",
+    "case_study": null,
+    "metrics": [],
+    "architecture": null,
+    "featured": false,
+    "sort_order": 7
+  }
+]
