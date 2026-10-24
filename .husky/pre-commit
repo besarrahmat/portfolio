@@ -1,0 +1,3 @@
+npx biome check --staged --no-errors-on-unmatched
+npm run typecheck
+npm test
