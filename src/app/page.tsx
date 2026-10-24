@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 import { getHealth } from "@/server/db/health";
 
-// Fase 0 tracer: server-rendered page reading D1 through a tagged 'use cache' entry.
+// Fase 0 tracer: server-rendered page reading D1 on every request.
 export default function Home() {
   return (
     <main>

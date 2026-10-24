@@ -1,13 +1,8 @@
-import { cacheTag } from "next/cache";
-
 import { getDb } from "./index";
 import { health } from "./schema";
 
-export const HEALTH_TAG = "health";
-
+// No 'use cache': on Workers a read after updateTag can hang (opennextjs-cloudflare#1464); revisit in Fase 11.
 export async function getHealth() {
-  "use cache";
-  cacheTag(HEALTH_TAG);
   const row = await getDb().select().from(health).get();
   return row ?? null;
 }

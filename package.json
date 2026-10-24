@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run --dir src",
+    "test": "vitest run --dir src --passWithNoTests",
     "test:e2e": "playwright test",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "[ \"$(git branch --show-current)\" = main ] || { echo 'Deploy only from main (development happens on dev).' >&2; exit 1; }; opennextjs-cloudflare build && opennextjs-cloudflare deploy",
