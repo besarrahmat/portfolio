@@ -497,10 +497,10 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 
 **Tujuan:** menghasilkan PRODUCT.md, satu audiens prioritas, dan **satu** tujuan konversi.
 **Skill:** impeccable `init`; metaskills:create-website (intake + fase 1); one-page-marketing.
-- [ ] Jalankan `impeccable context` → `/impeccable init`: wawancara pengguna utama, tujuan, posisi unik, batasan. Hasilnya **PRODUCT.md** (Platform: web; Stack: Next.js 16 + Hono + D1, sudah diputuskan).
-- [ ] Intake create-website (7 pertanyaan) → `docs/CREATE-WEBSITE-PLAN.md` dengan penyesuaian §4.3 (Fase 9 di-skip, Fase 8 tanpa A/B test).
-- [ ] one-page-marketing: skor PVP untuk 2–3 segmen audiens, avatar satu paragraf, USP yang lolos **swap test** ("satu-satunya … yang …") → `docs/MARKETING.md`, `docs/CUSTOMER.md`.
-- [ ] Before/During/After versi portofolio: **Media** (LinkedIn, profil GitHub, link di CV), **Convert** (CV/kontak), **Referral** (tidak relevan, catat sebagai skipped).
+- [x] Jalankan `impeccable context` → `/impeccable init`: wawancara pengguna utama, tujuan, posisi unik, batasan. Hasilnya **PRODUCT.md** (Platform: web; Stack: Next.js 16 + Hono + D1, sudah diputuskan).
+- [x] Intake create-website (7 pertanyaan) → `docs/CREATE-WEBSITE-PLAN.md` dengan penyesuaian §4.3 (Fase 9 di-skip, Fase 8 tanpa A/B test).
+- [x] one-page-marketing: skor PVP untuk 2–3 segmen audiens, avatar satu paragraf, USP yang lolos **swap test** ("satu-satunya … yang …") → `docs/MARKETING.md`, `docs/CUSTOMER.md`.
+- [x] Before/During/After versi portofolio: **Media** (LinkedIn, profil GitHub, link di CV), **Convert** (CV/kontak), **Referral** (tidak relevan, catat sebagai skipped).
 
 **Edge case (urut prioritas):**
 - 🟠 **Wawancara ganda.** Impeccable `init` dan intake create-website menanyakan hal yang sama. Gabungkan; jawaban yang sudah tercatat di §11 cukup dikonfirmasi, tidak ditanyakan ulang.
@@ -947,6 +947,9 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 | 2026-10-24 | Binding DO queue, D1 tag cache, dan `WORKER_SELF_REFERENCE` dibuang karena tidak ada lagi yang me-revalidate. Peringatan "internal Durable Objects" hilang; bundle turun jadi gzip 1.031,82 KiB. Peringatan "DOQueueHandler not exported" juga dihilangkan (✅ permintaan Rahmat): entry kustom `worker.js` di root hanya me-re-export handler `default` dari `.open-next/worker.js` (pola custom worker OpenNext), lalu migrasi `v2` `deleted_classes: ["DOQueueHandler"]` menghapus namespace DO yang kosong secara permanen. Bila Fase 11 memakai DO lagi, kelasnya harus di-re-export di `worker.js` dengan tag migrasi baru | Uji `preview` + dry-run + docs Cloudflare (DO migrations) | 0 |
 | 2026-10-24 | Diverifikasi di produksi (versi `0c3b3204`, commit `d8aa42c`): migrasi `v2` diterima, API Cloudflare tidak lagi mencatat namespace DO untuk script `portfolio`, binding tinggal `DB`, `MEDIA`, dan `NEXT_INC_CACHE_R2_BUCKET`, e2e 3/3 lulus di URL live, CI hijau di `main` dan `dev`. **Kriteria "Selesai bila" Fase 0 terpenuhi** | `wrangler versions view` + API DO namespaces + e2e + `gh run list` | 0 |
 | 2026-10-24 | Biome 2.6 ikut memformat Markdown dan sempat memformat ulang `docs/PLAN.md` (padding tabel, `*x*` → `_x_`, baris kosong); isi teks tidak diubah. Markdown kini dikecualikan dari Biome | Kejadian saat setup | 0 |
+| 2026-10-24 | Fase 1: audiens utama = tech lead / hiring manager perusahaan software terkait Jepang (PVP 25/30); tujuan konversi = Download CV, urutan CTA CV → LinkedIn → email; status ketersediaan tampil hanya bila terbuka; bahasa EN saat launch, JA bahasa kedua yang pasti (siap i18n; font wajib punya glyph JP atau fallback teruji); mobile-first; pembagian DESIGN.md (§4.3) dan ritme gerbang (§4.2) disetujui (❓ #1–6, #27) | Jawaban Rahmat | 1 |
+| 2026-10-24 | Fase 1: USP "The only portfolio that is itself the proof …" (lolos swap test); di frontend tanpa daftar tech stack dalam kurung. GCT adalah anak perusahaan PT MINORI, yang bekerja sama dengan dan memiliki banyak klien Jepang (boleh disebut, tanpa nama klien). Frasa "the stack Japanese teams ship" diuji kredibilitasnya di Fase 2 | Jawaban Rahmat | 1 |
+| 2026-10-24 | Fase 1: launcher `impeccable context` berjalan; live mode Impeccable ditunda ke Fase 3 (belum ada UI); `buildPath` tidak dicatat karena image generation tidak tersedia (jalur code-led, §4.3). Wawancara Impeccable `init` dan intake create-website digabung; jawaban §11 tidak ditanyakan ulang. **Kriteria "Selesai bila" Fase 1 terpenuhi** | Jalannya fase | 1 |
 
 ---
 
