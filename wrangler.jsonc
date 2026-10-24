@@ -11,23 +11,12 @@
   // shortcut: workers.dev only while there is no domain (Fase 0 tracer); MUST be false before real manage code ships (Fase 8)
   "workers_dev": true,
   "preview_urls": false,
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "portfolio"
-    }
-  ],
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "portfolio-db",
       "database_id": "b6df9075-ee90-4a24-a074-2d5930156ec7",
       "migrations_dir": "./drizzle"
-    },
-    {
-      "binding": "NEXT_TAG_CACHE_D1",
-      "database_name": "portfolio-tag-cache",
-      "database_id": "ce54eba1-ae45-41bb-91fc-eb63d0cecb64"
     }
   ],
   "r2_buckets": [
@@ -40,14 +29,8 @@
       "bucket_name": "portfolio-cache"
     }
   ],
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "NEXT_CACHE_DO_QUEUE",
-        "class_name": "DOQueueHandler"
-      }
-    ]
-  },
+  // Kept although the DO queue binding is gone: OpenNext's worker.js always exports DOQueueHandler,
+  // and an applied migration must stay in the list.
   "migrations": [
     {
       "tag": "v1",
