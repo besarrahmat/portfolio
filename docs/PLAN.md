@@ -473,8 +473,10 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 - [x] Pasang `@opennextjs/cloudflare` + `wrangler`. Isi `wrangler.jsonc`: flag `nodejs_compat`, binding D1 `DB`, binding R2 `MEDIA`, preview URL nonaktif. `workers_dev` hanya boleh aktif sementara untuk tracer bila domain belum ada (lihat edge case). Panggil `initOpenNextCloudflareForDev()` di `next.config.ts` supaya binding dan `.dev.vars` terbaca di `next dev`.
 - [x] Drizzle + D1: satu tabel `health` + migrasi. Endpoint `/api/v1/health` lewat Hono (sekaligus bukti Hono jalan di OpenNext).
 - [x] Halaman `/` yang dirender di server dan membaca D1.
-- [~] Deploy ke **Workers Free**. Catat: ukuran bundle (`wrangler deploy --dry-run --outdir`), CPU time median/p99 per halaman (dashboard Workers / `wrangler tail`), cold start. Ukuran sudah diukur (§11.3); deploy, CPU, dan cold start menunggu deploy manual Rahmat.
-- [~] Biome + Husky + ~~lint-staged~~ `biome check --staged` (✅ lint-staged dibuang), `tsc --noEmit`, kerangka Vitest + Playwright, CI GitHub Actions (lint, typecheck, test, build). CI hijau baru bisa dicek setelah push.
+- [x] Deploy ke **Workers Free**. Catat: ukuran bundle (`wrangler deploy --dry-run --outdir`), CPU time median/p99 per halaman (dashboard Workers / `wrangler tail`), cold start. Live di `https://portfolio.besarrahmat.workers.dev`; angka di §11.3. CPU > 10 ms → ✅ Workers Paid.
+- [ ] Uji siklus `updateTag` di Workers sungguhan (`E2E_MANAGE_PATH` = nilai secret produksi), lalu hapus route dummy `(manage)/m/[secret]`.
+- [x] Biome + Husky + ~~lint-staged~~ `biome check --staged` (✅ lint-staged dibuang), `tsc --noEmit`, kerangka Vitest + Playwright, CI GitHub Actions (lint, typecheck, test, build). CI hijau di `main` dan `dev`.
+- [x] Alur branch (✅): kerja di `dev`, `main` untuk rilis; CI untuk push dan PR ke keduanya; `npm run deploy` menolak jalan di luar `main`. Default branch GitHub tetap `main`, tanpa ruleset (sama seperti repo lain).
 - [x] `/impeccable hooks on` setelah scaffold ada. Bila hook tidak aktif, jalankan `impeccable detect --json` secara manual di tiap fase UI.
 
 **Edge case (urut prioritas):**
@@ -935,6 +937,10 @@ Diambil 18 Okt 2026 dari **LinkedIn** (dibaca di browser bawaan saat Rahmat suda
 | 2026-10-24 | Cache: R2 incremental cache + DO queue + D1 tag cache (resep "small site" OpenNext). Terbukti di `opennextjs-cloudflare preview`: tulis D1 langsung tanpa `updateTag` tidak terlihat; lewat Server Action + `updateTag` langsung segar | Uji lokal workerd; ulangi di Workers sungguhan setelah deploy | 0 |
 | 2026-10-24 | Ukuran Worker (`wrangler deploy --dry-run`): 5.766,97 KiB, gzip 1.216,55 KiB → di bawah batas Free 3 MiB terkompresi | Ukur lokal | 0 |
 | 2026-10-24 | Route manage pindah ke `(manage)/m/[secret]`: dengan `cacheComponents`, `notFound()` di segmen dinamis = soft-404 (200 + noindex), jadi `[secret]` di root membuat semua URL satu-segmen yang salah ikut 200 | Uji build produksi + docs Next 16.4 (streaming → status codes) + jawaban Rahmat | 0 |
+| 2026-10-24 | Deploy pertama: `portfolio.besarrahmat.workers.dev`, startup Worker 15 ms, gzip 1.216,28 KiB. CPU (`wrangler tail`, 50 request per route, termasuk isolate dingin): `/` p50 39 / p90 209 / p99 444 ms (min 20); `/api/v1/health` p50 12 / p90 72 / p99 147 ms; 404 statis p50 11 / p90 42 / p99 281 ms. Semua 200, tetapi seluruh request `/` di atas 10 ms | Ukur di Workers sungguhan | 0 |
+| 2026-10-24 | ❓ #22 diputuskan: **Workers Paid** (US$5/bulan). Baseline Next di Worker sudah ~11 ms, jadi Free tidak realistis tanpa merombak arsitektur | Jawaban Rahmat | 0 |
+| 2026-10-24 | Alur branch: `dev` untuk kerja, `main` untuk rilis; CI di push/PR ke keduanya; deploy hanya dari `main`; tanpa ruleset GitHub | Jawaban Rahmat | 0 |
+| 2026-10-24 | Peringatan saat build/deploy dibiarkan: "DOQueueHandler not exported" dan "internal Durable Objects" berasal dari proxy binding lokal (worker hasil build tetap mengekspor kelasnya); "Preview URLs disabled" memang disengaja (§6.3); DEP0190 dari kode OpenNext | Cek `.open-next/worker.js` + docs | 0 |
 | 2026-10-24 | Biome 2.6 ikut memformat Markdown dan sempat memformat ulang `docs/PLAN.md` (padding tabel, `*x*` → `_x_`, baris kosong); isi teks tidak diubah. Markdown kini dikecualikan dari Biome | Kejadian saat setup | 0 |
 
 ---
