@@ -55,6 +55,8 @@ Semua klaim di copy hanya boleh memakai baris di tabel ini. Fakta baru wajib mas
 
 **Pilihan Rahmat (✅ 24 Okt 2026): #1** dipakai di Overview, LinkedIn, dan CV. #5 menjadi kalimat pembuka About.
 
+**Revisi Fase 3 (✅ Rahmat, 24 Okt 2026):** #1 dipakai dalam **versi tenang** tanpa klausa perintah: "Every private system here comes with its architecture diagram." Alasan: critique Fase 3 menilai "Judge the engineering, not the claims" bisa terasa lancang bagi tech lead Jepang yang baru saja "menerima" meishi. Villain (claims) kini tersirat; dipakai di Overview, seed `profile.tagline`, dan CV.
+
 **USP versi frontend (✅ 24 Okt 2026):** frasa "the stack Japanese teams ship" **dibuang dari copy situs** karena hanya bersandar pada artikel editorial (§5.1). Versi frontend: "The only portfolio that is itself the proof: an admin panel you can inspect, with an architecture diagram for every private system." Versi lengkap di `docs/MARKETING.md` tetap sebagai positioning internal.
 
 ## made-to-stick (SUCCESs)

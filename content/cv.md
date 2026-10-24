@@ -5,7 +5,7 @@
 Full-stack web developer · Cikarang, West Java, Indonesia
 Portfolio: portfolio.besarrahmat.workers.dev · linkedin.com/in/besarrahmat · github.com/besarrahmat
 
-> Judge the engineering, not the claims: every private system on the portfolio comes with its architecture diagram.
+> Every private system on the portfolio comes with its architecture diagram.
 
 ## Summary
 

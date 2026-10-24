@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basic Design Document — first viewport sketch</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 390px; height: 844px; overflow: hidden; color: #1A1A1A; font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+    background: #FFFFFF; background-image: linear-gradient(#B9D3E0 1px, transparent 1px), linear-gradient(90deg, #B9D3E0 1px, transparent 1px);
+    background-size: 18px 18px; }
+  .bar { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: #DCE6F1; border-bottom: 1px solid #1A1A1A; font-size: 12px; }
+  .sheet { margin: 18px 16px; background: #fff; border: 1px solid #1A1A1A; }
+  .row { display: grid; grid-template-columns: 96px 1fr; border-bottom: 1px solid #1A1A1A; font-size: 11px; }
+  .row > * { padding: 6px 8px; }
+  .row > :first-child { background: #DCE6F1; border-right: 1px solid #1A1A1A; }
+  h1 { font-size: 26px; padding: 18px 10px; border-bottom: 1px solid #1A1A1A; line-height: 1.15; }
+  h1 small { display: block; font-size: 11px; font-weight: 400; margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; }
+  th, td { border-bottom: 1px solid #1A1A1A; border-right: 1px solid #1A1A1A; padding: 5px 6px; text-align: left; }
+  th { background: #DCE6F1; }
+  .approve { display: grid; grid-template-columns: 1fr 1fr 110px; font-size: 11px; }
+  .approve > div { border-right: 1px solid #1A1A1A; padding: 6px; height: 104px; }
+  .seal { width: 84px; height: 84px; border: 3px solid #D0312D; color: #D0312D; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 700; font-size: 15px; text-align: center; line-height: 1.1; margin: 4px auto 0; }
+</style>
+</head>
+<body>
+  <div class="bar"><b>基本設計書 / Basic Design Document</b><span>⌘K</span></div>
+  <div class="sheet">
+    <h1><small>Doc No. BRIP-001 · Full-stack web developer</small>Besar Rachmat Ikhsan Pambudi</h1>
+    <div class="row"><span>Location</span><span>Cikarang, West Java, Indonesia</span></div>
+    <div class="row"><span>Purpose</span><span>Judge the engineering, not the claims.</span></div>
+    <table>
+      <tr><th>Rev.</th><th>Date</th><th>Change</th></tr>
+      <tr><td>4.0</td><td>2026-01</td><td>Software Engineer, Global Collabo Tech</td></tr>
+      <tr><td>3.0</td><td>2023-12</td><td>Full Stack Web Developer, PT MINORI</td></tr>
+      <tr><td>2.0</td><td>2023-07</td><td>S1 Teknologi Informasi, Universitas Brawijaya</td></tr>
+      <tr><td>1.0</td><td>2022-04</td><td>SOBAT-PS for Dinas Kehutanan Kaltara</td></tr>
+    </table>
+    <div class="approve"><div>作成 Author<br>Rahmat</div><div>確認 Review<br>You</div><div style="border-right:0">承認<div class="seal">Download<br>CV</div></div></div>
+  </div>
+</body>
+</html>

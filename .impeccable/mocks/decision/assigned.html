@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meishi Exchange — first viewport sketch</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 390px; height: 844px; overflow: hidden; background: #22324F; color: #F4F5F2;
+    font-family: "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", system-ui, sans-serif; }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 16px;
+    border-bottom: 1px solid rgb(244 245 242 / .14); font-size: 13px; }
+  .bar b { letter-spacing: .08em; font-size: 12px; }
+  .kbd { border: 1px solid rgb(244 245 242 / .3); border-radius: 4px; padding: 2px 6px; font-size: 11px; }
+  .table { padding: 28px 16px 0; }
+  .card { width: 358px; height: 216px; background: #F4F5F2; color: #17191C; border-radius: 3px; padding: 18px 20px;
+    display: grid; grid-template-rows: auto 1fr auto; box-shadow: 0 1px 0 #0003, 0 14px 30px -12px #0008; }
+  .card .t { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #4A4F57; }
+  .card h1 { font-size: 27px; line-height: 1.12; font-weight: 700; letter-spacing: -.01em; align-self: center; }
+  .card .loc { font-size: 11px; color: #4A4F57; margin-top: 6px; font-weight: 400; letter-spacing: 0; }
+  .card .f { display: flex; justify-content: space-between; align-items: end; font-size: 11px; border-top: 1px solid #17191C22; padding-top: 10px; }
+  .cv { background: #E0482A; color: #fff; font-weight: 700; font-size: 14px; padding: 10px 14px; border-radius: 2px; }
+  .turn { margin-top: 12px; font-size: 12px; color: rgb(244 245 242 / .7); display: flex; gap: 8px; align-items: center; }
+  .line { margin-top: 32px; font-size: 24px; line-height: 1.3; font-weight: 700; max-width: 22ch; }
+  .label { margin-top: 36px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgb(244 245 242 / .6);
+    display: flex; justify-content: space-between; }
+  .row { display: flex; gap: 8px; margin-top: 12px; }
+  .mini { width: 114px; height: 69px; background: #F4F5F2; color: #17191C; border-radius: 2px; padding: 8px; font-size: 10px;
+    display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 16px -10px #0009; }
+  .mini b { font-size: 13px; }
+  .live { color: #E0482A; font-weight: 700; }
+  .stamp { margin-top: 28px; display: flex; gap: 24px; font-variant-numeric: tabular-nums; }
+  .stamp div { font-size: 11px; color: rgb(244 245 242 / .65); }
+  .stamp b { display: block; font-size: 28px; color: #F4F5F2; }
+</style>
+</head>
+<body>
+  <div class="bar"><span>☰ <b>OVERVIEW</b></span><span class="kbd">⌘K</span></div>
+  <div class="table">
+    <div class="card">
+      <div class="t"><span>Full-stack web developer</span><span>No. 001</span></div>
+      <h1>Besar Rachmat<br>Ikhsan Pambudi<div class="loc">Cikarang, West Java, Indonesia</div></h1>
+      <div class="f"><span>linkedin.com/in/besarrahmat</span><span class="cv">Download CV</span></div>
+    </div>
+    <div class="turn">↻ Turn the card over: the system that serves it</div>
+    <p class="line">Judge the engineering, not the claims.</p>
+    <div class="stamp"><div><b>54</b>months shipping</div><div><b>6</b>featured systems</div><div><b>v1.0.1</b>PolicySemVer</div></div>
+    <div class="label"><span>On the table</span><span>View projects →</span></div>
+    <div class="row">
+      <div class="mini"><b>SOBAT-PS</b><span class="live">● Live · gov</span></div>
+      <div class="mini"><b>PolicySemVer</b><span>Marketplace · npm</span></div>
+      <div class="mini"><b>Wedding</b><span>Static archive</span></div>
+    </div>
+  </div>
+</body>
+</html>

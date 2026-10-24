@@ -71,7 +71,7 @@ Struktur visual diputuskan di Fase 3; brief ini hanya mengikat isi dan urutan pr
 
 | Halaman              | Pertanyaan pengunjung yang dijawab                     | Isi (urut prioritas)                                                                                                                                                                        | CTA                                    |
 | -------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| Overview `/`         | "Layak diwawancara?" dalam 5 detik                    | Nama + headline + one-liner #1 · bukti Sinatra (SOBAT-PS still live) · KPI nyata: tahun pengalaman (dihitung), jumlah proyek unggulan, rilis PolicySemVer · 3 proyek unggulan · activity log singkat · ringkasan main stack (4 skill) | Download CV · View projects            |
+| Overview `/`         | "Layak diwawancara?" dalam 5 detik                    | Nama + headline + afiliasi (GCT) + one-liner #1 versi tenang · bukti Sinatra (SOBAT-PS still live) · KPI nyata: tahun pengalaman (dihitung), jumlah proyek unggulan, rilis PolicySemVer · 3 proyek unggulan · activity log singkat · ringkasan main stack (4 skill) | Download CV · View projects            |
 | Projects `/projects` | "Apa saja yang pernah ia kirim?"                      | Tabel (#ID, nama, jenis, stack, periode, state). Filter jenis. Badge "Private repo" untuk link privat                                                                                       | Buka detail                            |
 | Detail proyek        | "Bagaimana ia berpikir?"                              | Tagline · masalah → peran → keputusan → hasil · diagram dari `architecture` · metrik bersumber (bagian disembunyikan bila kosong) · links                                                   | Download CV · LinkedIn                 |
 | Experience           | "Di mana dan berapa lama?"                            | Timeline per peran, tanggal `YYYY-MM`, durasi dihitung, highlight bila ada                                                                                                                 | Download CV                            |
@@ -90,6 +90,7 @@ Seed menambah atau mengubah beberapa hal dari draf §6.4:
 - `skills.main` (boolean): main stack yang boleh diklaim di Experience, About, CV, dan Overview.
 - `skills.first_used` / `last_used` **tidak** disimpan: dihitung dari periode proyek lewat `project_skills`.
 - `links[].url` tidak ada untuk link `private` (dijaga test `src/lib/seed.test.ts`).
+- Pengalaman di Overview ditampilkan sebagai **"N yrs M mo"** dari `experienceMonths` (Fase 3); perlu formatter + test di Fase 4/7.
 
 ## CV
 
