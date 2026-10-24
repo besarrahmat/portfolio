@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio",
-  "main": ".open-next/worker.js",
+  "main": "worker.js",
   "compatibility_date": "2026-10-20",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
@@ -29,12 +29,15 @@
       "bucket_name": "portfolio-cache"
     }
   ],
-  // Kept although the DO queue binding is gone: OpenNext's worker.js always exports DOQueueHandler,
-  // and an applied migration must stay in the list.
+  // v1 created the OpenNext DO queue; v2 deletes it (unused since 'use cache' was dropped, and worker.js no longer exports it).
   "migrations": [
     {
       "tag": "v1",
       "new_sqlite_classes": ["DOQueueHandler"]
+    },
+    {
+      "tag": "v2",
+      "deleted_classes": ["DOQueueHandler"]
     }
   ]
 }
