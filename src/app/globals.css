@@ -1,1 +1,241 @@
 @import "tailwindcss";
+@import "../components/ui/ui.css";
+
+/*
+ * Design tokens — world: The Meishi Exchange (docs/DESIGN.md §5, moved here from docs/design/tokens.css in Fase 5).
+ * Contrast of every text/UI pair is recorded in docs/DESIGN.md § Tokens.
+ */
+
+@theme static {
+  /* Closed palette: Tailwind's default colours are removed; every tone has a job. */
+  --color-*: initial;
+  /* 鼠 nezumi — cool, blue-tinted neutral */
+  --color-nezumi-50: #f5f7f9;
+  --color-nezumi-100: #e9edf1;
+  --color-nezumi-200: #d6dde4;
+  --color-nezumi-300: #b9c3ce;
+  --color-nezumi-400: #8e9aa8;
+  --color-nezumi-500: #6a7685;
+  --color-nezumi-600: #4f5a68;
+  --color-nezumi-700: #3a4350;
+  --color-nezumi-800: #262c36;
+  --color-nezumi-900: #16191e;
+  /* 藍 ai — indigo, the dark table and the focus ring */
+  --color-ai-50: #eef2fa;
+  --color-ai-100: #d8e0f2;
+  --color-ai-200: #b0c0e2;
+  --color-ai-300: #8299c9;
+  --color-ai-400: #5873ac;
+  --color-ai-500: #3c568f;
+  --color-ai-600: #2c4174;
+  --color-ai-700: #22325a;
+  --color-ai-800: #1b2744;
+  --color-ai-900: #131b30;
+  /* 朱 shu — vermilion, the single signal: Download CV and the Live state only */
+  --color-shu-50: #fdf0ec;
+  --color-shu-100: #fadbd2;
+  --color-shu-200: #f4b5a3;
+  --color-shu-300: #ec8a6f;
+  --color-shu-400: #e46445;
+  --color-shu-500: #d9472a;
+  --color-shu-600: #be3620;
+  --color-shu-700: #9a2a19;
+  --color-shu-800: #742014;
+  --color-shu-900: #4f160e;
+
+  /* Fluid between 390 px and 1440 px viewports; rem parts keep 200% zoom working. Never below 12 px. */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.314rem + 0.762vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.55rem + 1.333vw, 2.75rem);
+  --text-name: clamp(1.75rem, 1.193rem + 2.286vw, 3.25rem);
+  --leading-tight: 1.1;
+  --leading-heading: 1.2;
+  --leading-ui: 1.4;
+  --leading-body: 1.6;
+  --tracking-name: -0.01em;
+  --tracking-label: 0.08em;
+
+  /* Space: Tailwind's 4 px step already gives the scale 1/2/4/6/8/12/16 = 4/8/16/24/32/48/64 px. */
+  --spacing: 4px;
+
+  /* Trimmed card corners, no pills. */
+  --radius-card: 3px;
+  --radius-control: 2px;
+
+  /* Motion: no ease/linear; one authored moment (the flip). */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-flip: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Semantic roles change with the theme, so utilities read them through var(). */
+@theme inline {
+  --color-table: var(--table);
+  --color-stock: var(--stock);
+  --color-meishi: var(--meishi);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-line-strong: var(--line-strong);
+  --color-signal: var(--signal);
+  --color-on-signal: var(--on-signal);
+  --color-signal-text: var(--signal-text);
+  --color-focus: var(--focus);
+  --font-text: var(--font-text);
+  --font-figure: var(--font-figure);
+}
+
+:root {
+  /* next/font sets --font-biz-p / --font-biz-m on <html>; the rest is the tested JP fallback chain. */
+  --font-text:
+    var(--font-biz-p), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP",
+    system-ui, sans-serif;
+  --font-figure:
+    var(--font-biz-m), "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
+    ui-monospace, monospace;
+  --measure: 65ch;
+
+  /* The meishi is printed stock in both themes: it is an object, not a surface. */
+  --meishi: #f6f7f5;
+  --meishi-ink: var(--color-nezumi-900);
+  --meishi-ink-3: var(--color-nezumi-600);
+  --meishi-focus: var(--color-ai-500); /* 6.69:1 on the card */
+  --meishi-line: var(--color-nezumi-500); /* 4.30:1 on the card */
+  --meishi-rule: rgb(22 25 30 / 0.14);
+
+  /* Light (default when the device asks for light). */
+  --table: var(--color-nezumi-200);
+  --stock: #f6f7f5;
+  --ink: var(--color-nezumi-900);
+  --ink-2: var(--color-nezumi-700);
+  --ink-3: var(--color-nezumi-600);
+  --rule: rgb(22 25 30 / 0.14);
+  --line-strong: var(--color-nezumi-500);
+  --signal: var(--color-shu-600);
+  --on-signal: #ffffff;
+  --signal-text: var(
+    --color-shu-700
+  ); /* Live label: 5.63:1 on the table, 7.19:1 on stock (shu-600 was 4.10 on the table) */
+  --focus: var(--color-ai-500);
+  /* Error copy reuses the signal hue: it is the one "needs you now" colour (AA on stock). */
+  --danger-text: var(--color-shu-700);
+
+  --shadow-flat: 0 1px 0 rgb(22 25 30 / 0.08);
+  --shadow-card:
+    0 1px 0 rgb(22 25 30 / 0.1), 0 10px 22px -12px rgb(22 25 30 / 0.35);
+  --shadow-lift:
+    0 1px 0 rgb(22 25 30 / 0.1), 0 22px 36px -14px rgb(22 25 30 / 0.45);
+  --shadow-float:
+    0 2px 4px rgb(22 25 30 / 0.12), 0 28px 48px -16px rgb(22 25 30 / 0.5);
+  --scrim: rgb(22 25 30 / 0.4);
+
+  --dur-feedback: 120ms;
+  --dur-ui: 200ms;
+  --dur-flip: 640ms;
+
+  color-scheme: light dark;
+}
+
+/* Dark: the indigo meeting table; working sheets become dark stock with light ink. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --table: var(--color-ai-900);
+    --stock: var(--color-ai-800);
+    --ink: var(--color-ai-50);
+    --ink-2: var(--color-ai-200);
+    --ink-3: var(--color-ai-300);
+    --rule: rgb(238 242 250 / 0.14);
+    --line-strong: var(--color-ai-400);
+    --signal-text: var(--color-shu-300);
+    --danger-text: var(--color-shu-300);
+    --focus: var(--color-ai-200);
+    --shadow-flat: 0 1px 0 rgb(0 0 0 / 0.3);
+    --shadow-card: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 24px -12px rgb(0 0 0 / 0.7);
+    --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 24px 40px -14px rgb(0 0 0 / 0.8);
+    --shadow-float:
+      0 2px 4px rgb(0 0 0 / 0.3), 0 28px 48px -16px rgb(0 0 0 / 0.85);
+    --scrim: rgb(0 0 0 / 0.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --table: var(--color-ai-900);
+  --stock: var(--color-ai-800);
+  --ink: var(--color-ai-50);
+  --ink-2: var(--color-ai-200);
+  --ink-3: var(--color-ai-300);
+  --rule: rgb(238 242 250 / 0.14);
+  --line-strong: var(--color-ai-400);
+  --signal-text: var(--color-shu-300);
+  --danger-text: var(--color-shu-300);
+  --focus: var(--color-ai-200);
+  --shadow-flat: 0 1px 0 rgb(0 0 0 / 0.3);
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.3), 0 12px 24px -12px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 24px 40px -14px rgb(0 0 0 / 0.8);
+  --shadow-float:
+    0 2px 4px rgb(0 0 0 / 0.3), 0 28px 48px -16px rgb(0 0 0 / 0.85);
+  --scrim: rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-flip: 160ms;
+  }
+}
+
+@layer base {
+  body {
+    /* Base UI popups: backdrops cover the visual viewport on iOS 26+ (docs: quick start). */
+    position: relative;
+    background: var(--table);
+    color: var(--ink);
+    font-family: var(--font-text);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Popups portal above the app without z-index fights (Base UI quick start). */
+  .root {
+    isolation: isolate;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+  /* No one-word last lines in running text (Impeccable straggler check). */
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  /* Browser surfaces belong to the design too. */
+  ::selection {
+    background: var(--color-ai-200);
+    color: var(--color-nezumi-900);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-control);
+  }
+  html {
+    accent-color: var(--signal);
+    caret-color: var(--focus);
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  /* Fixed-pitch figures only where columns must align (BIZ UDPGothic has no tnum feature). */
+  time,
+  .figure {
+    font-family: var(--font-figure);
+    font-variant-numeric: tabular-nums;
+  }
+}

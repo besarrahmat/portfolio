@@ -23,6 +23,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@base-ui/react": "1.9.0",
     "@opennextjs/cloudflare": "1.20.13",
     "drizzle-orm": "0.45.4",
     "hono": "4.13.13",
@@ -32,6 +33,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@biomejs/biome": "2.6.2",
     "@playwright/test": "1.64.1",
     "@tailwindcss/turbopack": "^4",

@@ -69,7 +69,7 @@ Menuju 10: komposisi "di atas meja" yang lebih berani untuk kartu proyek (tidak 
 | Kata (`--font-text`) | **BIZ UDPGothic** 400/700 (Morisawa, OFL)          | Huruf dokumen bisnis Jepang (UD = universal design); glyph JP dengan desain yang sama untuk versi JA      |
 | Angka/ID/tanggal (`--font-figure`) | **BIZ UDGothic** 400/700 (fixed-pitch Latin) | **BIZ UDPGothic tidak punya fitur `tnum`** (diukur: lebar "1111" 100,8 px vs "0000" 121,6 px, sama dengan atau tanpa `tabular-nums`); BIZ UDGothic 80/80 px |
 
-- **Payload:** slice latin keempat file = **75.968 byte (≈ 74 KB)**, diukur dari Google Fonts 24 Okt 2026 → di bawah 200 KB. Di app di-self-host lewat `next/font/google` (`subsets: ['latin']`); slice JP hanya diunduh bila ada karakter Jepang (unicode-range).
+- **Payload:** slice latin keempat file = **75.968 byte (≈ 74 KB)**, diukur dari Google Fonts 24 Okt 2026 → di bawah 200 KB. Di app di-self-host lewat `next/font/local` (`src/app/fonts/`, empat slice latin yang sama + `OFL.txt`; Fase 5). `next/font/google` ditolak karena mengunduh ±500 slice JP setiap build. Karakter Jepang memakai Gothic sistem dari rantai fallback sampai slice JP ditambahkan untuk versi JA.
 - **Cakupan glyph (diuji dengan teks nyata):** nama lengkap, em dash, kutip melengkung, elipsis, huruf beraksen (é ñ ü), dan teks Jepang (名刺設計書ベサール) ada di kedua font. **"→" tidak ada di BIZ UDPGothic** (U+2192 tidak di slice latin): panah wajib SVG.
 - **Fallback eksplisit:** `"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif`.
 - **Fixed-pitch hanya untuk kolom yang harus sejajar** (tabel, tanggal, ID di tabel). Di teks bebas ("v1.0.1", "No. 001" di kartu) memakai font teks; fixed-pitch membuat titik bercelah lebar.
@@ -80,7 +80,7 @@ Menuju 10: komposisi "di atas meja" yang lebih berani untuk kartu proyek (tidak 
 
 ## 5. Tokens (refactoring-ui)
 
-Draf lengkap: `docs/design/tokens.css` (belum diimpor app; Fase 5 memindahkannya ke `src/app/globals.css` `@theme`).
+Sumber token sejak Fase 5: `src/app/globals.css` (`@theme static` dengan palet tertutup, `@theme inline` untuk peran semantik). `docs/design/tokens.css` tetap sebagai draf Fase 3 yang dipakai sketsa.
 
 - **Palet 9 tingkat:** 鼠 nezumi (netral kebiruan, 50–900), 藍 ai (indigo, 50–900), 朱 shu (vermilion, 50–900). Abu-abu bernada biru; tidak ada `#000`/`#fff` selain teks di atas sinyal.
 - **Strategi warna:** Committed. Meja (latar) memegang sebagian besar permukaan; kartu di atasnya; satu sinyal.
@@ -95,7 +95,8 @@ Draf lengkap: `docs/design/tokens.css` (belum diimpor app; Fase 5 memindahkannya
 | `--ink-2`      | nezumi-700 `#3A4350`     | ai-200 `#B0C0E2`          | teks sekunder                            |
 | `--ink-3`      | nezumi-600 `#4F5A68`     | ai-300 `#8299C9`          | label, meta, kartu yang diredupkan       |
 | `--signal`     | shu-600 `#BE3620`        | shu-600 `#BE3620`         | isi tombol Download CV (teks putih)      |
-| `--signal-text`| shu-600                  | shu-300 `#EC8A6F`         | label Live                               |
+| `--signal-text`| shu-700 `#9A2A19` (Fase 5) | shu-300 `#EC8A6F`       | label Live (5,63:1 di meja, 7,19:1 di stock) |
+| `--danger-text`| shu-700                  | shu-300                   | pesan error form (tugas kedua 朱)          |
 | `--line-strong`| nezumi-500 `#6A7685`     | ai-400 `#5873AC`          | border kontrol (3:1)                     |
 | `--focus`      | ai-500 `#3C568F`         | ai-200 `#B0C0E2`          | focus ring                               |
 
@@ -114,7 +115,7 @@ Draf lengkap: `docs/design/tokens.css` (belum diimpor app; Fase 5 memindahkannya
 | ink-3 / table                  | 5,12  | ink-3 / table                   | 5,99  |
 | putih / signal                 | 5,62  | meishi-ink / meishi             | 16,39 |
 | signal vs table (UI ≥ 3)       | 4,10  | signal vs table (UI ≥ 3)        | 3,05  |
-| live text / stock              | 5,23  | live text / stock               | 5,94  |
+| live text / stock (shu-700)    | 7,19  | live text / stock               | 5,94  |
 | line-strong / stock (UI)       | 4,30  | line-strong / stock (UI)        | 3,14  |
 | focus / stock · table (UI)     | 6,69 · 5,25 | focus / stock · table (UI) | 8,09 · 9,36 |
 
@@ -163,3 +164,32 @@ Dijalankan dual-agent (A: review desain, B: detector + overlay browser), snapsho
 | min | Rotasi ikon tetap jalan di reduced motion                     | Dimatikan                                                                                    |
 
 **Verifikasi setelah perbaikan:** detector `[]` (exit 0). Satu `cramped-padding` pada `.face` di-ignore dengan alasan: padding `clamp(16px, 4.2%, 32px)` terukur 16 px di kartu 288 px, dan pemindaian statis tidak bisa menghitung clamp berbasis persen. Ignore disimpan di `.impeccable/config.json`, khusus untuk file ini. Di browser: fokus CV di meishi gelap memakai `#3C568F`, fokus di luar kartu `#B0C0E2`; tidak ada overflow di 320 px; dock CV muncul setelah scroll; flip lewat frasa memindahkan fokus ke "This card is served by". Critique ulang (skor baru) dijalankan saat build Fase 5–7.
+
+## 8. Modul komponen (Fase 5)
+
+48 komponen ✔ dari `docs/PLAN.md` §9 di `src/components/ui/`, dipamerkan di `/components` ("Design system"). Primitif interaktif dari **Base UI 1.9.0** tanpa gaya bawaan; semua gaya dari token di satu `ui.css`.
+
+**Keputusan anatomi yang mengikat build berikutnya:**
+
+- **Satu aksi primer per section** = tombol `primary` sumi (isi ink, teks stock). 朱 bukan varian Button: hanya File (Download CV), badge Live, dan teks error.
+- **Disabled** tetap AA: teks ink-3 + garis putus-putus, bukan opacity. Disabled + tercentang tetap terlihat (isi ink-3).
+- **Target sentuh:** `--control-h` 44 px di pointer kasar, 36 px di pointer halus (baris menu/tab/tabel desktop tetap padat). Field form selalu 44 px dengan teks ≥ 16 px. Link yang berdiri sendiri (bukan di dalam kalimat) ikut `--control-h`.
+- **Record** = Card rata di meja (`--shadow-flat`) dengan serial `No. 001`; hover/fokus mengangkat satu kartu dan meredupkan yang lain ke ink-3 (`.ui-card-spread`).
+- **Tanggal** = cap `YYYY-MM` fixed-pitch (`time`, `.figure`); Progress indicator adalah log bertanggal dengan durasi dari `formatDuration` ("4 yrs 6 mo").
+- **Signature:** File siap → mengunduh (isian shu-800 mengikuti byte nyata) → selesai (centang "dicap" 200 ms) → siap lagi. Reduced motion: tanpa gerak, teks tetap berganti. Forced colors: isian memakai `Highlight`.
+- **Popup** (menu, popover, select, combobox) memakai `--shadow-float` seperti meishi; tooltip dan toast terbalik (isi ink). Modal hanya untuk tugas yang butuh fokus terlindungi (preview import, konfirmasi arsip).
+- **Ikon** satu set buatan sendiri (24 px, stroke 1,75) di `icon.tsx`; panah selalu SVG.
+
+**Audit Impeccable (`/components`, 24 Okt 2026): 18/20, Excellent.**
+
+| # | Dimensi | Skor | Temuan utama |
+| - | ------- | ---- | ------------ |
+| 1 | Accessibility | 3 | axe 0 pelanggaran serius di terang/gelap/forced-colors setelah hidrasi; nama Base UI (`aria-labelledby`) baru ada setelah hidrasi |
+| 2 | Performance | 3 | gambar lazy, animasi transform/opacity, tanpa `will-change`; ukuran bundle Base UI belum diukur (Fase 11) |
+| 3 | Theming | 4 | semua warna dari token; dua bayangan hard-coded di tombol CV diganti token |
+| 4 | Responsive | 4 | tanpa scroll horizontal di 320/640 px; target sentuh diukur di emulasi Pixel 7 |
+| 5 | Implementation integrity | 4 | detector `[]`; dunia meishi konsisten (serial, cap tanggal, satu sinyal) |
+
+Diperbaiki selama audit: Live di atas meja 4,10:1 → shu-700; tombol primary di forced-colors (`ButtonText`/`ButtonFace`); bottom nav meluap di 320 px; link "Reference" dan tombol hapus chip di bawah 44 px; paragraf "straggler" (`text-wrap: pretty`); checkbox/switch disabled + tercentang kehilangan tanda; label demo dan field form tidak sejajar.
+
+**Belum diuji:** Windows High Contrast dan Safari iOS sungguhan (hanya emulasi Chromium), keyboard virtual di perangkat nyata (Fase 8).
