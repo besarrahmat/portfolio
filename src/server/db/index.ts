@@ -6,5 +6,5 @@ import * as schema from "./schema";
 
 export const getDb = cache(() => {
   const { env } = getCloudflareContext();
-  return drizzle(env.DB, { schema });
+  return drizzle(env.DB, { schema, casing: "snake_case" });
 });
