@@ -4,4 +4,5 @@ export default defineConfig({
   schema: "./src/server/db/schema.ts",
   out: "./drizzle",
   dialect: "sqlite",
+  casing: "snake_case",
 });
