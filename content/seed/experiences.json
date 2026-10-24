@@ -1,0 +1,83 @@
+[
+  {
+    "id": "gct",
+    "company": "Global Collabo Tech",
+    "role": "Software Engineer",
+    "employment_type": "full_time",
+    "location": "Cikarang Selatan, Indonesia",
+    "work_mode": "on_site",
+    "start": "2026-01",
+    "end": null,
+    "summary": "Subsidiary of PT MINORI, which works with many clients in Japan.",
+    "highlights": [
+      "Continues the work started at PT MINORI.",
+      "Leads a team of freelancers and interns on internal AI development projects for individual departments."
+    ],
+    "skills": ["nextjs", "php"],
+    "disclosure": "general",
+    "counts_toward_experience": true,
+    "sort_order": 1,
+    "status": "published"
+  },
+  {
+    "id": "minori",
+    "company": "PT MINORI",
+    "role": "Full Stack Web Developer",
+    "employment_type": "full_time",
+    "location": "Cikarang Selatan, Indonesia",
+    "work_mode": "on_site",
+    "start": "2023-12",
+    "end": "2026-01",
+    "summary": "Works with and serves many clients in Japan.",
+    "highlights": [
+      "Built and maintained apps, mainly in Laravel.",
+      "Maintained legacy CodeIgniter apps that are still in use.",
+      "Started building with Next.js in 2026."
+    ],
+    "skills": ["laravel", "codeigniter", "nextjs", "php"],
+    "disclosure": "general",
+    "counts_toward_experience": true,
+    "sort_order": 2,
+    "status": "published"
+  },
+  {
+    "id": "htsi",
+    "company": "PT Heat Transfer Solutions Indonesia",
+    "role": "Contract Web Developer",
+    "employment_type": "contract",
+    "location": "Sidoarjo, Indonesia",
+    "work_mode": "remote",
+    "start": "2022-07",
+    "end": "2023-10",
+    "summary": "Company website and a service quotation request system on WordPress.",
+    "highlights": [
+      "Built a system for receiving service quotation requests.",
+      "Migrated the company website to a new CMS setup (WordPress + Brizy)."
+    ],
+    "skills": [],
+    "disclosure": "public",
+    "counts_toward_experience": true,
+    "sort_order": 3,
+    "status": "published"
+  },
+  {
+    "id": "dishut-kaltara",
+    "company": "Dinas Kehutanan Provinsi Kalimantan Utara",
+    "role": "Contract Web Developer",
+    "employment_type": "contract",
+    "location": "Bulungan, Indonesia",
+    "work_mode": "remote",
+    "start": "2022-04",
+    "end": "2023-09",
+    "summary": "Forestry Office of North Kalimantan Province. Built and maintained SOBAT-PS.",
+    "highlights": [
+      "Built SOBAT-PS, the social forestry and community empowerment information system, with Laravel and Bootstrap.",
+      "Reviewed code, debugged production issues, and wrote training documentation."
+    ],
+    "skills": ["laravel", "php"],
+    "disclosure": "public",
+    "counts_toward_experience": true,
+    "sort_order": 4,
+    "status": "published"
+  }
+]

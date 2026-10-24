@@ -21,8 +21,8 @@ Dimulai 24 Okt 2026 (Fase 1 `docs/PLAN.md`). Tracker ini memetakan sepuluh fase 
 | Phase | Skill                    | Status                                                              | Artifact                   | Fase PLAN    | Date       |
 | ----- | ------------------------ | ------------------------------------------------------------------- | -------------------------- | ------------ | ---------- |
 | 1     | one-page-marketing       | done                                                                | MARKETING.md, CUSTOMER.md  | 1            | 2026-10-24 |
-| 2     | storybrand-messaging     | pending                                                             | POSITIONING.md, WEBSITE.md | 2            |            |
-| 3     | made-to-stick            | pending                                                             | POSITIONING.md, WEBSITE.md | 2            |            |
+| 2     | storybrand-messaging     | done                                                                | POSITIONING.md, WEBSITE.md | 2            | 2026-10-24 |
+| 3     | made-to-stick            | done                                                                | POSITIONING.md, WEBSITE.md | 2            | 2026-10-24 |
 | 4     | top-design               | pending                                                             | DESIGN.md                  | 3            |            |
 | 5     | web-typography           | pending                                                             | DESIGN.md                  | 3            |            |
 | 6     | refactoring-ui           | pending                                                             | DESIGN.md                  | 3, 5         |            |
@@ -45,10 +45,13 @@ Statuses: pending · in-progress · awaiting-evidence · done · deferred: <reas
 | 2026-10-24 | 1     | Bahasa EN saat launch, JA sebagai bahasa kedua yang pasti; situs siap i18n                        | Dipilih Rahmat                                                |
 | 2026-10-24 | 1     | Mobile-first                                                                                      | Pengunjung sering membuka dari LinkedIn di HP; dipilih Rahmat |
 | 2026-10-24 | 9     | Dilewati                                                                                          | `docs/PLAN.md` §4.3                                           |
+| 2026-10-24 | 2     | One-liner #1; frasa stack Jepang dibuang; bukti Sinatra = SOBAT-PS live                            | Dipilih Rahmat                                                |
 | 2026-10-24 | 8     | Tanpa A/B test                                                                                    | Trafik terlalu kecil (`docs/PLAN.md` §4.3)                    |
 
 ## Next Actions
 
-- [ ] Fase 2: BrandScript + 5 one-liner + made-to-stick untuk avatar di MARKETING.md (agent + Rahmat, Fase 2)
-- [ ] Fase 2: putuskan frasa "the stack Japanese teams ship" tetap, dilunakkan, atau diganti (Rahmat, Fase 2)
+- [x] Fase 2: BrandScript + 5 one-liner + made-to-stick (`docs/POSITIONING.md`)
+- [x] Fase 2: frasa "the stack Japanese teams ship" dibuang dari copy situs (Rahmat)
+- [x] Lokasi profil (Cikarang), foto profesional, highlight GCT/MINORI, status web profile HTSI (Rahmat, Fase 2)
+- [ ] Perbarui lokasi LinkedIn ke Cikarang (Rahmat, Fase 13)
 - [ ] Tautkan URL situs di LinkedIn, README profil GitHub, dan CV setelah launch (Rahmat, Fase 13)

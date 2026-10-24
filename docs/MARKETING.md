@@ -25,12 +25,12 @@ P = minat Rahmat (dikonfirmasi lewat pilihan audiens, 24 Okt 2026), V = seberapa
 
 > "The only portfolio that is itself the proof: an admin panel on the stack Japanese teams ship (Next.js 16 + Hono + D1 on Workers), with an architecture diagram for every private system."
 
-**Versi frontend (✅ Rahmat):** tanpa daftar tech stack dalam kurung: "The only portfolio that is itself the proof: an admin panel on the stack Japanese teams ship, with an architecture diagram for every private system."
+**Versi frontend (✅ Rahmat, diperbarui di Fase 2):** tanpa daftar tech stack dan tanpa frasa "the stack Japanese teams ship" (hanya bersandar pada artikel editorial): "The only portfolio that is itself the proof: an admin panel you can inspect, with an architecture diagram for every private system."
 
 **Swap test:** nama developer lain tidak bisa dipasang tanpa membuat kalimatnya salah. Klaimnya bergantung pada situs ini sendiri (sistem produksi yang bisa dicek) dan pada diagram untuk proyek privat milik Rahmat.
-**Catatan kredibilitas:** "the stack Japanese teams ship" bersandar pada bukti editorial di `docs/PLAN.md` §5.1 (tanpa survei resmi). Fase 2 (made-to-stick, Credible) memutuskan apakah frasa ini dipertahankan, dilunakkan, atau diganti bukti yang lebih kuat.
+**Catatan kredibilitas:** "the stack Japanese teams ship" bersandar pada bukti editorial di `docs/PLAN.md` §5.1 (tanpa survei resmi). Fase 2 memutuskan: frasa ini dibuang dari copy situs dan hanya tetap di positioning internal (`docs/POSITIONING.md`).
 
-**Elevator pitch (draf, difinalkan di Fase 2):** "You know how hard it is to judge a full-stack candidate whose best work is private? This portfolio is itself a production system on the stack your team ships, and every private project comes with its architecture diagram, so you can judge the engineering before the first interview."
+**Elevator pitch (final, Fase 2):** "You know how hard it is to judge a full-stack candidate whose best work is private? This portfolio is itself a production system you can inspect, and every private project comes with its architecture diagram, so you can judge the engineering before the first interview." One-liner terpilih ada di `docs/POSITIONING.md`.
 
 ### Tujuan konversi utama
 

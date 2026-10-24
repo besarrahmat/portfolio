@@ -1,0 +1,102 @@
+[
+  {
+    "id": "google-workspace-admin",
+    "name": "Configure your Workplace: Google Workspace for IT Admins",
+    "issuer": "Google",
+    "issued_at": "2023-11",
+    "expires_at": null,
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "codingstudio-laravel-9",
+    "name": "Mahir Membuat Website dengan Laravel 9",
+    "issuer": "Coding Studio",
+    "issued_at": "2023-11",
+    "expires_at": null,
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "codingstudio-frontend",
+    "name": "Fundamental Front-End Web",
+    "issuer": "Coding Studio",
+    "issued_at": "2023-11",
+    "expires_at": null,
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-ml-pemula",
+    "name": "Belajar Machine Learning untuk Pemula",
+    "issuer": "Dicoding",
+    "issued_at": "2023-11",
+    "expires_at": "2026-11",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-analisis-data-python",
+    "name": "Belajar Analisis Data dengan Python",
+    "issuer": "Dicoding",
+    "issued_at": "2023-11",
+    "expires_at": "2026-11",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-python",
+    "name": "Memulai Pemrograman dengan Python",
+    "issuer": "Dicoding",
+    "issued_at": "2023-10",
+    "expires_at": "2026-10",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-sql",
+    "name": "Belajar Dasar SQL",
+    "issuer": "Dicoding",
+    "issued_at": "2023-10",
+    "expires_at": "2026-10",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-data-science",
+    "name": "Belajar Dasar Data Science",
+    "issuer": "Dicoding",
+    "issued_at": "2023-10",
+    "expires_at": "2026-10",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-java",
+    "name": "Memulai Pemrograman dengan Java",
+    "issuer": "Dicoding",
+    "issued_at": "2022-05",
+    "expires_at": "2025-05",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  },
+  {
+    "id": "dicoding-dart",
+    "name": "Memulai Pemrograman dengan Dart",
+    "issuer": "Dicoding",
+    "issued_at": "2024-10",
+    "expires_at": "2027-10",
+    "credential_id": null,
+    "url": null,
+    "status": "published"
+  }
+]
