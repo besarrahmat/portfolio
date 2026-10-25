@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardSpread } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
@@ -15,9 +16,20 @@ import {
 import { Meishi } from "./meishi";
 import { StateBadge } from "./projects/state-badge";
 import "./overview.css";
+import Loading from "./loading";
+
+// Client navigations re-render only below the shared (public) layout, so its loading.tsx cannot cover them:
+// each page brings its own boundary to stay instant (Next 16 instant navigation).
+export default function Overview() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <OverviewContent />
+    </Suspense>
+  );
+}
 
 // Persuade (docs/PLAN.md §7): who this is in five seconds, proof on the table, Download CV on the card.
-export default async function Overview() {
+async function OverviewContent() {
   await connection(); // D1 only exists at request time
   const [profile, projects, experiences, certifications, skills] =
     await Promise.all([

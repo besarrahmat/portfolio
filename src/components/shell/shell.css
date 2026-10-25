@@ -73,6 +73,24 @@
 .shell-crumbs {
   min-width: 0;
 }
+/* The topbar keeps one line: a long record name is cut with an ellipsis (its full name is the page h1). */
+.shell-crumbs ol {
+  flex-wrap: nowrap;
+}
+.shell-crumbs li:not(:last-child) {
+  flex: none;
+}
+/* 320 px phones: site → record only; the section crumb would push search off the screen. */
+@media (max-width: 359px) {
+  .shell-crumbs li:nth-child(2):not(:last-child) {
+    display: none;
+  }
+}
+.shell-crumbs [aria-current="page"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .shell-search {
   display: inline-flex;

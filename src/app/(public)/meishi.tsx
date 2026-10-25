@@ -48,7 +48,9 @@ export function Meishi(props: MeishiProps) {
     if (hand.current) io.observe(hand.current);
     return () => {
       io.disconnect();
-      root.removeAttribute("data-meishi-out");
+      // Leaving Overview keeps its DOM alive but hidden (route state is preserved for Back), so
+      // :has(.meishi-hand) still matches: mark the card out, or the next page would lose its CV.
+      root.setAttribute("data-meishi-out", "");
     };
   }, []);
 

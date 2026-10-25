@@ -19,13 +19,28 @@ import "./shell.css";
 const linkedin = profile.links.find((l) => l.kind === "linkedin")?.url ?? "";
 
 // The palette index is the only D1 read in the shell; it streams in, and a failure leaves pages-only search.
-async function IndexedPalette() {
+async function loadIndex() {
   await connection();
-  const index = await listSearchIndex().catch((error: unknown) => {
+  return listSearchIndex().catch((error: unknown) => {
     console.error("Search index unavailable:", error);
     return undefined;
   });
-  return <CommandPalette {...index} />;
+}
+
+async function IndexedPalette() {
+  return <CommandPalette {...(await loadIndex())} />;
+}
+
+// Same index: a project page's crumb shows its title instead of the slug (the slug stays the fallback).
+async function IndexedCrumbs() {
+  const index = await loadIndex();
+  return (
+    <Crumbs
+      titles={Object.fromEntries(
+        index?.projects.map((p) => [p.slug, p.title]) ?? [],
+      )}
+    />
+  );
 }
 
 // The admin-panel frame around every public page (docs/DESIGN.md §6): sidebar on desktop, menu sheet
@@ -49,8 +64,11 @@ export function Shell({ children }: { children: ReactNode }) {
           start={
             <>
               <MenuDrawer />
+              {/* Outer boundary: the fallback Crumbs reads usePathname, which must itself sit in Suspense. */}
               <Suspense>
-                <Crumbs />
+                <Suspense fallback={<Crumbs />}>
+                  <IndexedCrumbs />
+                </Suspense>
               </Suspense>
             </>
           }
