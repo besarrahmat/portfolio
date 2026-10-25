@@ -8,6 +8,8 @@ type SegmentedControlProps = {
   label: string;
   options: { value: string; label: string; count?: number }[];
   defaultValue: string;
+  /** Controlled value, for a choice stored outside the component (the theme). */
+  value?: string;
   onChange?: (value: string) => void;
 };
 
@@ -16,9 +18,11 @@ export function SegmentedControl({
   label,
   options,
   defaultValue,
+  value: controlled,
   onChange,
 }: SegmentedControlProps) {
-  const [value, setValue] = useState(defaultValue);
+  const [internal, setValue] = useState(defaultValue);
+  const value = controlled ?? internal;
   return (
     <ToggleGroup
       aria-label={label}

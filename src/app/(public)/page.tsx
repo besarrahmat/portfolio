@@ -6,12 +6,12 @@ import { getHealth } from "@/server/db/health";
 // Fase 0 tracer: server-rendered page reading D1 on every request.
 export default function Home() {
   return (
-    <main>
+    <div className="shell-page">
       <h1>Besar Rachmat Ikhsan Pambudi</h1>
       <Suspense fallback={<p>Loading…</p>}>
         <HealthNote />
       </Suspense>
-    </main>
+    </div>
   );
 }
 

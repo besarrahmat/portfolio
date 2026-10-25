@@ -10,6 +10,7 @@ target_fingerprint: "sha256:77df08035616fdb1bf4dc9deede8f87b878836949aba7f69620c
 target_path: /Users/apple/GitHub/project-personal/portfolio/docs/design/overview-sketch.html
 timestamp: 2026-10-24T10-10-47Z
 slug: docs-design-overview-sketch-html
+closed: true
 ---
 Method: dual-agent (A: design review sub-agent · B: detector + browser sub-agent)
 

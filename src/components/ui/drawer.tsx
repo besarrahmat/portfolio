@@ -8,6 +8,9 @@ type DrawerProps = {
   children: ReactNode;
   /** left = navigation sheet; bottom = filter sheet in thumb reach. Both can be swiped away. */
   side?: "left" | "bottom";
+  /** Controlled open state, e.g. so the menu sheet closes after a link is followed. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
 // Sheet for navigation and filters on phones. Focus is trapped while open and returns to the trigger.
@@ -16,9 +19,15 @@ export function Drawer({
   title,
   children,
   side = "left",
+  open,
+  onOpenChange,
 }: DrawerProps) {
   return (
-    <Base.Root swipeDirection={side === "left" ? "left" : "down"}>
+    <Base.Root
+      swipeDirection={side === "left" ? "left" : "down"}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <Base.Trigger render={trigger} />
       <Base.Portal>
         <Base.Backdrop className="ui-backdrop ui-drawer-backdrop" />

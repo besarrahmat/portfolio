@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
 import { type ReactNode, Suspense } from "react";
+import { NAV } from "@/components/shell/nav";
 import { Accordion } from "@/components/ui/accordion";
 import { Alert } from "@/components/ui/alert";
 import { Avatar } from "@/components/ui/avatar";
@@ -33,7 +34,6 @@ import { SearchInput } from "@/components/ui/search-input";
 import { Select } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SkipLink } from "@/components/ui/skip-link";
 import { Spinner } from "@/components/ui/spinner";
 import { Stack } from "@/components/ui/stack";
 import { type Column, Table } from "@/components/ui/table";
@@ -88,15 +88,6 @@ const issuers = [...new Set(certifications.map((c) => c.issuer))].map((i) => ({
   label: i,
 }));
 const linkedin = profile.links.find((l) => l.kind === "linkedin")?.url ?? "";
-const nav = [
-  { href: "/", label: "Overview" },
-  { href: "/projects", label: "Projects" },
-  { href: "/experience", label: "Experience" },
-  { href: "/skills", label: "Skills" },
-  { href: "/education", label: "Education" },
-  { href: "/contact", label: "Contact" },
-  { href: "/components", label: "Design system" },
-];
 
 // The architecture of this site as a picture, built from the same facts as the meishi's back (no stock image).
 const diagram = `data:image/svg+xml,${encodeURIComponent(
@@ -369,7 +360,7 @@ const entries = (): Entry[] => [
           title="Sections"
           trigger={<Button variant="secondary">Open navigation</Button>}
         >
-          <Navigation items={nav} current="/components" />
+          <Navigation items={NAV} current="/components" />
         </Drawer>
         <Drawer
           side="bottom"
@@ -666,11 +657,11 @@ const entries = (): Entry[] => [
     children: (
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="max-w-60">
-          <Navigation items={nav} current="/components" />
+          <Navigation items={NAV} current="/components" />
         </div>
         <div className="showcase__frame self-start">
           <Navigation
-            items={nav.slice(0, 4)}
+            items={NAV.slice(0, 4)}
             current="/"
             layout="bar"
             label="Primary"
@@ -1045,8 +1036,7 @@ export default function ComponentsPage() {
   const list = entries();
   return (
     <ToastProvider>
-      <SkipLink />
-      <main id="main" className="showcase-page">
+      <div className="showcase-page">
         <header className="showcase-page__intro">
           <Heading level={1}>Design system</Heading>
           <p>
@@ -1073,7 +1063,7 @@ export default function ComponentsPage() {
         {list.map((e) => (
           <Showcase key={e.slug} {...e} />
         ))}
-      </main>
+      </div>
     </ToastProvider>
   );
 }
