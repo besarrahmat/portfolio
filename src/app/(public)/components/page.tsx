@@ -64,7 +64,7 @@ import {
 import "./showcase.css";
 
 export const metadata: Metadata = {
-  title: "Design system · Besar Rachmat Ikhsan Pambudi",
+  title: "Design system",
   description:
     "Every component this portfolio is built from, with its states and accessibility notes, in component.gallery order.",
 };

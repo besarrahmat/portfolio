@@ -14,9 +14,13 @@ async function trunkTest(page: Page, pageName: string) {
   await expect(
     top(page).getByRole("button", { name: "Search pages, projects, skills" }),
   ).toBeVisible();
+  // Topbar/dock everywhere, except on Overview where the meishi holds it while on screen (docs/DESIGN.md §1).
   await expect(
-    top(page).getByRole("link", { name: /Download CV/ }),
-  ).toBeVisible();
+    top(page)
+      .or(page.locator(".meishi"))
+      .getByRole("link", { name: /Download CV/ })
+      .filter({ visible: true }),
+  ).toHaveCount(1);
 }
 
 test.describe("Trunk Test", () => {

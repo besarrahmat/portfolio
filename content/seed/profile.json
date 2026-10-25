@@ -7,7 +7,7 @@
   "location": "Cikarang, West Java, Indonesia",
   "summary": "Most of a developer's best work sits behind an NDA, so this site shows how each system is built instead: its architecture, the decisions behind it, and where it runs today.\n\nRahmat (Besar Rachmat Ikhsan Pambudi) is a full-stack web developer with {experience_years}+ years of shipped work since April 2022. He is a Software Engineer at Global Collabo Tech, a subsidiary of PT MINORI, which works with many clients in Japan, where he leads freelancers and interns building internal AI projects for individual departments. Before that, at PT MINORI, he built and maintained apps in Laravel, CodeIgniter, and Next.js, and as a contract developer he delivered SOBAT-PS, the social forestry information system that North Kalimantan's Forestry Office still runs today.\n\nOutside work he ships tools other developers can use, such as PolicySemVer, a versioning GitHub Action published on GitHub Marketplace and npm. His main stack is PHP with Laravel and CodeIgniter, plus Next.js.\n\nThe fastest way to judge his work is to open a project. The fastest way to share it is the CV.",
   "avatar_key": "profile/avatar.jpg",
-  "cv_key": null,
+  "cv_key": "cv/Besar-Rachmat-Ikhsan-Pambudi-CV.pdf",
   "contact_email": null,
   "links": [
     {

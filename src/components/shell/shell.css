@@ -113,6 +113,9 @@
   right: 16px;
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 5;
+  transition:
+    translate var(--dur-ui) var(--ease-out),
+    visibility var(--dur-ui);
 }
 .shell-cv .ui-file {
   width: 100%;
@@ -127,6 +130,12 @@
   background: var(--stock);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-float);
+}
+/* While the Overview meishi is on screen its own Download CV is the primary; the dock steps aside.
+   Hidden from first paint via :has; the card's observer sets data-meishi-out once it scrolls away. */
+:root:has(.meishi-hand):not([data-meishi-out]) .shell-cv {
+  translate: 0 calc(100% + 32px);
+  visibility: hidden;
 }
 /* Landscape phones and tablets: a compact dock at the right keeps the short viewport readable. */
 @media (min-width: 640px) {

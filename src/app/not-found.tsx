@@ -5,7 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { Link } from "@/components/ui/link";
 
 export const metadata: Metadata = {
-  title: "Page not found · Besar Rachmat Ikhsan Pambudi",
+  title: "Page not found",
 };
 
 // Every unmatched URL lands here (real 404 status), still inside the shell so the nav and CV stay in reach.

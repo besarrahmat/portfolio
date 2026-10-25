@@ -145,19 +145,24 @@ export function seed(target: Target, run: Run = wrangler) {
     );
   }
 
-  const avatar = data.profile[0].avatarKey;
-  if (avatar)
-    run([
-      "r2",
-      "object",
-      "put",
-      `portfolio-media/${avatar}`,
-      "--file",
-      fileURLToPath(new URL("content/media/avatar.jpg", root)),
-      "--content-type",
-      "image/jpeg",
-      target,
-    ]);
+  const { avatarKey, cvKey } = data.profile[0];
+  const files = [
+    [avatarKey, "content/media/avatar.jpg", "image/jpeg"],
+    [cvKey, "content/media/cv.pdf", "application/pdf"],
+  ] as const;
+  for (const [key, file, type] of files)
+    if (key)
+      run([
+        "r2",
+        "object",
+        "put",
+        `portfolio-media/${key}`,
+        "--file",
+        fileURLToPath(new URL(file, root)),
+        "--content-type",
+        type,
+        target,
+      ]);
 }
 
 if (import.meta.main) {

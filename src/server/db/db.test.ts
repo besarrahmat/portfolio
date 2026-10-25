@@ -72,7 +72,7 @@ describe("seed", () => {
     expect(() => seed("--local", () => "[]")).toThrow(/Refusing/);
   });
 
-  it("writes the SQL then the avatar on an empty database", () => {
+  it("writes the SQL then the avatar and the CV on an empty database", () => {
     const calls: string[][] = [];
     seed("--local", (args) => {
       calls.push(args);
@@ -82,8 +82,10 @@ describe("seed", () => {
       ["d1", "execute"],
       ["d1", "execute"],
       ["r2", "object"],
+      ["r2", "object"],
     ]);
     expect(calls.every((c) => c.includes("--local"))).toBe(true);
+    expect(calls.at(-1)).toContain("application/pdf");
   });
 
   it("removes partial rows when the write fails, and uploads nothing", () => {

@@ -6,7 +6,20 @@ const baseURL = process.env.BASE_URL ?? "http://localhost:3005";
 export default defineConfig({
   testDir: "./e2e",
   use: { baseURL },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testIgnore: /cv-missing\.spec\.ts/,
+    },
+    // Edits the shared local D1 (empties the CV key), so it runs alone after everything else. Local only.
+    {
+      name: "cv-missing",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /cv-missing\.spec\.ts/,
+      dependencies: ["chromium"],
+    },
+  ],
   webServer: process.env.BASE_URL
     ? undefined
     : {
