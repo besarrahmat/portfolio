@@ -8,6 +8,8 @@ type NavigationProps = {
   current: string;
   label?: string;
   layout?: "sidebar" | "bar";
+  /** Called when a link is followed, even to the current page (closes the menu sheet). */
+  onNavigate?: () => void;
 };
 
 // Text labels on every item (no mystery-meat icons); the current page is marked for sight and for screen readers.
@@ -16,6 +18,7 @@ export function Navigation({
   current,
   label = "Sections",
   layout = "sidebar",
+  onNavigate,
 }: NavigationProps) {
   return (
     <nav
@@ -28,6 +31,7 @@ export function Navigation({
             <Link
               href={item.href}
               aria-current={item.href === current ? "page" : undefined}
+              onClick={onNavigate}
             >
               {item.label}
             </Link>

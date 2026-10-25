@@ -193,3 +193,13 @@ Dijalankan dual-agent (A: review desain, B: detector + overlay browser), snapsho
 Diperbaiki selama audit: Live di atas meja 4,10:1 → shu-700; tombol primary di forced-colors (`ButtonText`/`ButtonFace`); bottom nav meluap di 320 px; link "Reference" dan tombol hapus chip di bawah 44 px; paragraf "straggler" (`text-wrap: pretty`); checkbox/switch disabled + tercentang kehilangan tanda; label demo dan field form tidak sejajar.
 
 **Belum diuji:** Windows High Contrast dan Safari iOS sungguhan (hanya emulasi Chromium), keyboard virtual di perangkat nyata (Fase 8).
+
+## 9. Shell admin panel (Fase 6)
+
+Mode Operate, dunia meishi dalam bentuk tertahan. Komposisi mengikuti sketsa §6 (✅ tanpa ronde struktur baru).
+
+- **Desktop ≥ 1024 px:** sidebar 240 px sticky ("Rahmat" → `/`, nav `Main`, tema System/Light/Dark di bawah), topbar sticky 56 px (breadcrumb, cari 320 px dengan `⌘K`/`Ctrl K`, Download CV).
+- **HP:** topbar 52 px (Menu → drawer kiri berisi nav + tema, `Rahmat › Section`, ikon cari 44 px); **dock CV** fixed di bawah dengan `safe-area-inset-bottom`; ≥ 640 px (landscape) dock mengecil ke kanan. Footer `All pages` = jalur tanpa JS.
+- **Palette:** sheet stock `--shadow-float`, input 44 px, grup Pages/Projects/Skills berlabel huruf kapital `--tracking-label`, item terpilih terbalik (isi ink) seperti menu.
+- **Tema:** satu script `<head>` membaca `localStorage.theme`; server tidak pernah tahu tema (HTML sama untuk semua).
+- **Critique (25 Okt 2026): 29/40, Good**, detector `[]`, overlay bersih. Setelah critique: petunjuk tombol palette, skeleton loading berbentuk halaman, footer disembunyikan di desktop, label cari "Search pages, projects, skills". Detector tetap `[]`.

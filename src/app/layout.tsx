@@ -25,9 +25,22 @@ export const metadata: Metadata = {
   description: "Portfolio of Besar Rachmat Ikhsan Pambudi.",
 };
 
+// Runs while <head> parses, before first paint: the stored theme (src/components/shell/theme.tsx) without a
+// flash, and the same HTML from the server for everyone. Fase 10's CSP must allow it (hash or nonce).
+const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${text.variable} ${figure.variable}`}>
+    // suppressHydrationWarning: the script above sets data-theme before React hydrates.
+    <html
+      lang="en"
+      className={`${text.variable} ${figure.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: a fixed string, no user input. */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <div className="root">{children}</div>
       </body>

@@ -153,3 +153,20 @@ export async function listSkills() {
     projects: used.filter((u) => u.skillId === s.id).map((u) => u.slug),
   }));
 }
+
+// The command palette's compact index: titles and keys only, sent with the shell on every page.
+export async function listSearchIndex() {
+  const db = getDb();
+  const [projectRows, skillRows] = await Promise.all([
+    db
+      .select({ slug: projects.slug, title: projects.title })
+      .from(projects)
+      .where(eq(projects.status, "published"))
+      .orderBy(asc(projects.sortOrder)),
+    db
+      .select({ id: skills.id, name: skills.name })
+      .from(skills)
+      .orderBy(asc(skills.name)),
+  ]);
+  return { projects: projectRows, skills: skillRows };
+}

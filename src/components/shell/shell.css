@@ -1,0 +1,320 @@
+/* The admin-panel shell (docs/DESIGN.md §6). Phones first; the sidebar takes over at 1024 px. */
+
+.shell {
+  min-height: 100dvh;
+}
+.shell-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
+}
+.shell-main {
+  flex: 1;
+}
+
+/* Controls that need JS (menu sheet, palette, theme) step aside when scripting is off; the nav is plain links. */
+@media (scripting: none) {
+  .shell .shell-js {
+    display: none;
+  }
+}
+
+/* ── Sidebar (desktop) ── */
+
+.shell-sidebar {
+  display: none;
+}
+.shell-owner {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  padding: 0 8px;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+.shell-sidebar .ui-navigation {
+  margin-top: 32px;
+}
+.shell-theme .ui-segmented {
+  display: flex;
+}
+.shell-theme .ui-segmented__item {
+  flex: 1;
+  justify-content: center;
+  padding: 0 8px;
+}
+.shell-sidebar .shell-theme {
+  margin-top: auto;
+  padding-top: 24px;
+}
+.shell-drawer {
+  display: grid;
+  gap: 24px;
+}
+/* The sheet is stock already, so the current page sits on the table colour instead. */
+.shell-drawer .ui-navigation a[aria-current="page"] {
+  background: var(--table);
+}
+
+/* ── Topbar ── */
+
+.shell .ui-header {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--table);
+}
+.shell-menu {
+  margin-left: -8px;
+}
+.shell-crumbs {
+  min-width: 0;
+}
+
+.shell-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: color var(--dur-feedback) var(--ease-out);
+}
+.shell-search:hover {
+  color: var(--ink);
+}
+@media (max-width: 1023.98px) {
+  .shell-search__label,
+  .shell-search__kbd {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* CV dock: bottom of the screen on phones (thumb reach), in the topbar on desktop. One primary per viewport. */
+.shell-cv {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 5;
+}
+.shell-cv .ui-file {
+  width: 100%;
+  justify-items: stretch;
+}
+.shell-cv .ui-file__button {
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+}
+.shell-cv .ui-file__error {
+  padding: 8px 16px;
+  background: var(--stock);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-float);
+}
+/* Landscape phones and tablets: a compact dock at the right keeps the short viewport readable. */
+@media (min-width: 640px) {
+  .shell-cv {
+    left: auto;
+    right: calc(16px + env(safe-area-inset-right, 0px));
+  }
+}
+
+/* ── Footer: the no-JS route to every page on phones; padded clear of the dock and the home indicator ── */
+
+.shell .ui-footer {
+  padding-bottom: calc(24px + 44px + 32px + env(safe-area-inset-bottom, 0px));
+}
+.shell .ui-footer .ui-navigation ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
+.shell .ui-footer .ui-navigation a {
+  padding: 0;
+}
+
+/* ── Command palette ── */
+
+.shell-palette-viewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: min(15vh, 96px) 16px 16px;
+}
+.shell-palette {
+  display: flex;
+  flex-direction: column;
+  width: min(36rem, 100%);
+  max-height: min(32rem, calc(100dvh - 32px));
+  overflow: hidden;
+  background: var(--stock);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-float);
+  transition:
+    opacity var(--dur-ui) var(--ease-out),
+    translate var(--dur-ui) var(--ease-out);
+}
+.shell-palette[data-starting-style],
+.shell-palette[data-ending-style] {
+  opacity: 0;
+  translate: 0 -8px;
+}
+.shell-palette__input {
+  padding: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.shell-palette__input > .ui-icon {
+  left: 28px;
+}
+.shell-palette__results {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+}
+.shell-palette__group + .shell-palette__group {
+  margin-top: 8px;
+}
+.shell-palette__label {
+  padding: 8px 8px 4px;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.shell-palette__hint {
+  padding: 8px 16px;
+  border-top: 1px solid var(--rule);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--ink-3);
+}
+.shell-palette__hint kbd,
+.shell-search__kbd {
+  font-family: var(--font-figure);
+  font-size: var(--text-xs);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  padding: 0 4px;
+}
+@media (pointer: coarse) {
+  .shell-palette__hint {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+.shell-palette__empty {
+  padding: 16px 8px;
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+}
+
+/* ── Desktop ── */
+
+@media (min-width: 1024px) {
+  .shell {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+  .shell-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    overflow-y: auto;
+    padding: 24px 16px;
+    border-right: 1px solid var(--rule);
+  }
+  .shell-menu,
+  .shell-crumbs li:first-child {
+    display: none;
+  }
+  .shell-search {
+    width: 320px;
+    min-height: 36px;
+    justify-content: flex-start;
+    padding: 0 8px 0 16px;
+    border-color: var(--line-strong);
+    color: var(--ink-3);
+  }
+  .shell-search__label {
+    margin-right: auto;
+  }
+  .shell-cv {
+    position: static;
+  }
+  .shell-cv .ui-file__button {
+    box-shadow: none;
+  }
+  /* The footer is the phones' no-JS route; on desktop the sidebar does that job, so the band would be empty. */
+  .shell .ui-footer {
+    display: none;
+  }
+}
+
+/* Content column padding for shell pages (404, error, loading; Fase 7 pages reuse it). */
+.shell-page {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  max-width: 72rem;
+  padding: 24px 16px 64px;
+}
+@media (min-width: 1024px) {
+  .shell-page {
+    padding: 48px 48px 64px;
+  }
+}
+
+/* Loading: first skeleton line stands in for the page heading; records lie flat below (91:55 only on desktop). */
+/* nth-child(2): the Skeleton's first child is its visually hidden status text. */
+.shell-loading .ui-skeleton > span:nth-child(2) {
+  height: var(--text-3xl);
+  width: min(24ch, 70%);
+  margin-bottom: 16px;
+}
+.shell-loading__records {
+  display: grid;
+  gap: 16px;
+}
+.shell-loading__records .ui-skeleton--card {
+  aspect-ratio: auto;
+  height: 96px;
+}
+@media (min-width: 1024px) {
+  .shell-loading__records {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .shell-loading__records .ui-skeleton--card {
+    aspect-ratio: 91 / 55;
+    height: auto;
+  }
+}
