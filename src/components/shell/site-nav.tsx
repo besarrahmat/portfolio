@@ -19,7 +19,8 @@ export function SiteNav({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 // Topbar trail: site → section → record. "Rahmat" is the site ID on phones, where the sidebar is hidden.
-export function Crumbs() {
+// titles maps a record's URL segment to its name (project slugs → titles), streamed in from D1.
+export function Crumbs({ titles = {} }: { titles?: Record<string, string> }) {
   const path = usePathname();
   const section = sectionOf(path);
   const record = section && path !== section.href && path.split("/").at(-1);
@@ -32,8 +33,9 @@ export function Crumbs() {
           section
             ? { label: section.label, href: record ? section.href : undefined }
             : { label: "Not found" },
-          // shortcut: the record crumb shows the URL segment; Fase 7 detail pages pass the record title.
-          ...(record ? [{ label: decodeURIComponent(record) }] : []),
+          ...(record
+            ? [{ label: titles[record] ?? decodeURIComponent(record) }]
+            : []),
         ]}
       />
     </div>

@@ -1,0 +1,139 @@
+/* Architecture (src/lib/diagram.ts): records lying flat on the table, joined by labelled connectors.
+   Top to bottom by default; left to right only for ≤ 3 layers in a wide enough figure (container query). */
+.pd-flow {
+  list-style: none;
+  padding: 0;
+  display: grid;
+}
+.pd-step {
+  display: grid;
+}
+.pd-layer {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.pd-node {
+  display: grid;
+  gap: 2px;
+  padding: 12px 16px;
+  background: var(--stock);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-flat);
+  line-height: var(--leading-ui);
+}
+.pd-node b {
+  overflow-wrap: anywhere;
+}
+.pd-node span {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+/* People are not records we run: no stock, a dashed outline. */
+.pd-node--actor {
+  background: transparent;
+  box-shadow: none;
+  border: 1px dashed var(--line-strong);
+}
+/* The connector: arrow + hop label, read in the gap between two layers. */
+.pd-link {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  padding: 12px 0 12px 16px;
+  margin-left: 16px;
+  border-left: 1px solid var(--ink-3);
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: var(--leading-ui);
+}
+.pd-link li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.pd-link .ui-icon {
+  flex: none;
+  rotate: 90deg;
+  translate: 0 3px;
+}
+.pd-link li small {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+/* Left to right only when the figure itself has room (container, not viewport): a squeezed row would
+   break node names mid-word. */
+.pd-diagram {
+  container-type: inline-size;
+}
+@container (min-width: 44rem) {
+  .pd-diagram--row .pd-flow,
+  .pd-diagram--row .pd-step {
+    display: flex;
+    align-items: center;
+  }
+  .pd-diagram--row .pd-flow {
+    gap: 0;
+  }
+  .pd-diagram--row .pd-step {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .pd-diagram--row .pd-step:has(.pd-link) {
+    flex-grow: 2;
+  }
+  .pd-diagram--row .pd-layer {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .pd-diagram--row .pd-link {
+    flex: 0 0 9rem;
+    margin: 0;
+    padding: 0 12px;
+    border-left: 0;
+  }
+  .pd-diagram--row .pd-link .ui-icon {
+    rotate: none;
+    translate: 0 2px;
+  }
+  /* Fan-out: a bracket on the side that faces the group it reaches. */
+  .pd-diagram--row .pd-link--fan {
+    align-self: stretch;
+    align-content: center;
+    border-right: 1px solid var(--ink-3);
+  }
+}
+
+/* Compact: printed rows for the back of the meishi. Same data and markup, set like type on a card. */
+.pd-diagram--compact .pd-layer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+}
+.pd-diagram--compact .pd-node {
+  display: block;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  font-size: var(--text-sm);
+}
+.pd-diagram--compact .pd-node span,
+.pd-diagram--compact .pd-link li small {
+  display: none;
+}
+.pd-diagram--compact .pd-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  margin: 0;
+  padding: 2px 0;
+  border: 0;
+  font-size: var(--text-xs);
+}
+.pd-diagram--compact .pd-link li {
+  gap: 4px;
+}

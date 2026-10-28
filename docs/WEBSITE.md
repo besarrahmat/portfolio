@@ -81,6 +81,20 @@ Struktur visual diputuskan di Fase 3; brief ini hanya mengikat isi dan urutan pr
 
 **Pesan per halaman:** tidak ada kalimat pembuka "I/We"; setiap angka punya sumber di `docs/POSITIONING.md` § Fakta bersumber.
 
+## Objection / Counter (Fase 7, cro-methodology)
+
+Big 5 versi rekrutmen. Counter hanya bukti nyata dan ditempatkan **di titik ragu**, bukan di FAQ. Kolom terakhir menunjuk tempatnya di build.
+
+| Objection                          | Counter (hanya bukti nyata)                                                                                                                                         | Penempatan di build                                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Trust:** "ini sungguhan?"        | SOBAT-PS berbadge **Live** (masih jalan di domain pemprov), PolicySemVer v1.0.1 di Marketplace + npm, link repo publik, tanggal kerja persis `YYYY-MM`, sertifikat dengan tanggal terbit/berlaku | Ledger + "On the table" di Overview (tepat di bawah kartu); tab Links proyek; Experience; Education          |
+| **Fit:** "cocok dengan stack kami?" | Main stack (Laravel, CodeIgniter, PHP, Next.js) dipisah dari yang lain; setiap skill "Used in N projects" membuka proyeknya; tab Stack + diagram per proyek           | Skills (main stack di atas), tab Stack/Architecture di detail proyek, ringkasan main stack di Overview        |
+| **Effort:** "menilainya lama?"     | Download CV satu klik di kartu (1 langkah dari kedatangan; ≤ 3 langkah dari proyek mana pun, diuji e2e); one-liner + ledger 3 angka sebagai ringkasan 30 detik        | Meishi Overview, topbar (desktop), dock bawah (HP), Contact                                                   |
+| **Timing:** "tersedia?"            | Status ketersediaan dari `profile.availability`, tampil **hanya bila terisi** (sekarang kosong, jadi tidak tampil)                                                   | Meishi Overview + paragraf pembuka Contact                                                                    |
+| **Price:** gaji/rate               | Tidak ditampilkan (❓ tetap ditutup: dibahas setelah wawancara)                                                                                                     | —                                                                                                             |
+
+Tidak ada testimoni, logo klien, atau metrik yang dikarang; bagian yang tidak punya bukti disembunyikan (PRODUCT.md, prinsip 1).
+
 ## Catatan untuk Fase 4 (model data)
 
 Seed menambah atau mengubah beberapa hal dari draf §6.4:

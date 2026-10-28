@@ -14,9 +14,13 @@ async function trunkTest(page: Page, pageName: string) {
   await expect(
     top(page).getByRole("button", { name: "Search pages, projects, skills" }),
   ).toBeVisible();
+  // Topbar/dock everywhere, except on Overview where the meishi holds it while on screen (docs/DESIGN.md §1).
   await expect(
-    top(page).getByRole("link", { name: /Download CV/ }),
-  ).toBeVisible();
+    top(page)
+      .or(page.locator(".meishi"))
+      .getByRole("link", { name: /Download CV/ })
+      .filter({ visible: true }),
+  ).toHaveCount(1);
 }
 
 test.describe("Trunk Test", () => {
@@ -28,8 +32,11 @@ test.describe("Trunk Test", () => {
       const nav = page.getByRole("navigation", { name: "Main" });
       await expect(nav).toBeVisible();
       const name = { "/": "Overview", "/components": "Design system" }[path];
-      if (name)
-        await expect(nav.locator('[aria-current="page"]')).toHaveText(name);
+      // Design system lives in the footer and palette, not the main nav (Fase 7 critique).
+      if (path === "/")
+        await expect(nav.locator('[aria-current="page"]')).toHaveText(
+          "Overview",
+        );
       else await expect(nav.locator('[aria-current="page"]')).toHaveCount(0);
       await trunkTest(page, name ?? "Not found");
     });
@@ -63,19 +70,18 @@ test("keyboard only: skip link, sidebar, ⌘K / Ctrl+K palette", async ({
   ).toBeFocused();
 
   // Tab into the sidebar and follow a link with Enter.
-  const designSystem = page
+  const contact = page
     .getByRole("navigation", { name: "Main" })
-    .getByRole("link", { name: "Design system" });
+    .getByRole("link", { name: "Contact" });
   for (
     let i = 0;
-    i < 12 &&
-    !(await designSystem.evaluate((e) => e === document.activeElement));
+    i < 12 && !(await contact.evaluate((e) => e === document.activeElement));
     i++
   )
     await page.keyboard.press("Tab");
-  await expect(designSystem).toBeFocused();
+  await expect(contact).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/components$/);
+  await expect(page).toHaveURL(/\/contact$/);
 
   // The shortcut follows the OS (Meta on macOS, Control elsewhere), as does Playwright's ControlOrMeta.
   await page.locator("body").click({ position: { x: 1, y: 1 } });
@@ -95,9 +101,12 @@ test("palette lists projects and skills from D1, and Esc closes it", async ({
 }) => {
   await page.setViewportSize(desktop);
   await page.goto("/components");
-  await top(page)
-    .getByRole("button", { name: "Search pages, projects, skills" })
-    .click();
+  const search = top(page).getByRole("button", {
+    name: "Search pages, projects, skills",
+  });
+  // aria-keyshortcuts is set after hydration; a click before that opens nothing (flaky under load).
+  await expect(search).toHaveAttribute("aria-keyshortcuts", /K$/);
+  await search.click();
   const input = page.getByRole("combobox", {
     name: "Search pages, projects and skills",
   });

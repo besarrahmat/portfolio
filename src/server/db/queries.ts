@@ -1,4 +1,5 @@
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, sql } from "drizzle-orm";
+import { cache } from "react";
 import { z } from "zod";
 
 import {
@@ -155,11 +156,19 @@ export async function listSkills() {
 }
 
 // The command palette's compact index: titles and keys only, sent with the shell on every page.
-export async function listSearchIndex() {
+// Cached per request: the palette, the breadcrumb and project serials all read it.
+export const listSearchIndex = cache(async () => {
   const db = getDb();
   const [projectRows, skillRows] = await Promise.all([
     db
-      .select({ slug: projects.slug, title: projects.title })
+      .select({
+        slug: projects.slug,
+        title: projects.title,
+        // Only records with a case study get a page (Fase 7): the rest are table rows.
+        hasPage: sql<boolean>`${projects.caseStudy} is not null`.mapWith(
+          Boolean,
+        ),
+      })
       .from(projects)
       .where(eq(projects.status, "published"))
       .orderBy(asc(projects.sortOrder)),
@@ -169,4 +178,4 @@ export async function listSearchIndex() {
       .orderBy(asc(skills.name)),
   ]);
   return { projects: projectRows, skills: skillRows };
-}
+});

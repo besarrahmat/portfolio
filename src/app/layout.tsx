@@ -20,9 +20,17 @@ const figure = localFont({
   variable: "--font-biz-m",
 });
 
+// Pages set only their own title; the static ./opengraph-image.png covers every page (no dynamic OG: Worker CPU).
 export const metadata: Metadata = {
-  title: "Besar Rachmat Ikhsan Pambudi",
-  description: "Portfolio of Besar Rachmat Ikhsan Pambudi.",
+  // shortcut: workers.dev until a domain exists; switch with the domain in Fase 13.
+  metadataBase: new URL("https://portfolio.besarrahmat.workers.dev"),
+  title: {
+    default: "Besar Rachmat Ikhsan Pambudi · Full-stack web developer",
+    template: "%s · Besar Rachmat Ikhsan Pambudi",
+  },
+  description:
+    "Portfolio of Besar Rachmat Ikhsan Pambudi, full-stack web developer (Laravel, CodeIgniter, PHP, Next.js). Every private system here comes with its architecture diagram.",
+  openGraph: { type: "profile", siteName: "Besar Rachmat Ikhsan Pambudi" },
 };
 
 // Runs while <head> parses, before first paint: the stored theme (src/components/shell/theme.tsx) without a

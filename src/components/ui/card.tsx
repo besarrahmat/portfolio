@@ -28,27 +28,31 @@ export function Card({
   headingLevel = 3,
 }: CardProps) {
   const H = `h${headingLevel}` as const;
-  const body = (
-    <>
+  // Only the title is the link, so its accessible name is the record's name, not the whole card;
+  // a stretched ::after keeps the full card clickable (critique, Fase 7).
+  return (
+    <article
+      className={cx(
+        "ui-card",
+        ratio && "ui-card--ratio",
+        href && "ui-card--link",
+      )}
+    >
       <span className="ui-card__top">
         <span>{formatSerial(serial)}</span>
         {status}
       </span>
-      <H className="ui-card__title">{title}</H>
+      <H className="ui-card__title">
+        {href ? (
+          <Link href={href} className="ui-card__link">
+            {title}
+          </Link>
+        ) : (
+          title
+        )}
+      </H>
       {children && <div className="ui-card__body">{children}</div>}
-    </>
-  );
-  const className = cx(
-    "ui-card",
-    ratio && "ui-card--ratio",
-    href && "ui-card--link",
-  );
-  return href ? (
-    <Link href={href} className={className}>
-      {body}
-    </Link>
-  ) : (
-    <article className={className}>{body}</article>
+    </article>
   );
 }
 

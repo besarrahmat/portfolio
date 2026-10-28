@@ -6,9 +6,14 @@ test("health answers as this project", async ({ request }) => {
   expect(await res.json()).toMatchObject({ service: "portfolio", ok: true });
 });
 
-test("home renders the D1-backed note", async ({ page }) => {
+test("home renders the profile from D1", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByTestId("health-note")).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Besar Rachmat Ikhsan Pambudi",
+    }),
+  ).toBeVisible();
 });
 
 test("unknown public path is a real 404", async ({ request }) => {

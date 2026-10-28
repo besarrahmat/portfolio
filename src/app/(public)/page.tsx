@@ -1,28 +1,228 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardSpread } from "@/components/ui/card";
+import { Heading } from "@/components/ui/heading";
+import { Link } from "@/components/ui/link";
+import { experienceMonths } from "@/lib/experience";
+import { currentMonth, formatDuration } from "@/lib/format";
+import {
+  getProfile,
+  listExperiences,
+  listProjects,
+  listSkills,
+} from "@/server/db/queries";
+import { Meishi } from "./meishi";
+import { Diagram } from "./projects/diagram";
+import { hasPage } from "./projects/record";
+import { StateBadge } from "./projects/state-badge";
+import "./overview.css";
+import Loading from "./loading";
 
-import { getHealth } from "@/server/db/health";
-
-// Fase 0 tracer: server-rendered page reading D1 on every request.
-export default function Home() {
+// Client navigations re-render only below the shared (public) layout, so its loading.tsx cannot cover them:
+// each page brings its own boundary to stay instant (Next 16 instant navigation).
+export default function Overview() {
   return (
-    <div className="shell-page">
-      <h1>Besar Rachmat Ikhsan Pambudi</h1>
-      <Suspense fallback={<p>Loading…</p>}>
-        <HealthNote />
-      </Suspense>
+    <Suspense fallback={<Loading />}>
+      <OverviewContent />
+    </Suspense>
+  );
+}
+
+// Persuade (docs/PLAN.md §7): who this is in five seconds, proof on the table, Download CV on the card.
+async function OverviewContent() {
+  await connection(); // D1 only exists at request time
+  const [profile, projects, experiences, skills] = await Promise.all([
+    getProfile(),
+    listProjects(),
+    listExperiences(),
+    listSkills(),
+  ]);
+  if (!profile) throw new Error("Profile row missing");
+
+  const now = currentMonth(new Date());
+  const counted = experiences.filter((e) => e.countsTowardExperience);
+  const months = experienceMonths(counted, now);
+  const since = counted.map((e) => e.start).sort()[0];
+  const current = experiences.find((e) => e.end === null);
+  const featured = projects.filter((p) => p.featured);
+  const live = projects.filter((p) => p.state === "live");
+  // The back of the card is this site's own architecture record, so card and record never disagree.
+  const site = projects.find((p) => p.slug === "portfolio")?.architecture;
+  // On the table: proof a hiring tech lead can check now. Live systems first, then this site itself
+  // (the positioning's own proof), topped up from the featured order (critique, Fase 7; ✅ Rahmat).
+  const onTable = [
+    ...new Set([
+      ...featured.filter((p) => p.state === "live" || p.slug === "portfolio"),
+      ...featured,
+    ]),
+  ].slice(0, 3);
+  const release = projects
+    .find((p) => p.slug === "policy-semver")
+    ?.metrics.find((m) => m.label === "Latest release")?.value;
+  const linkedin = profile.links.find((l) => l.kind === "linkedin")?.url ?? "";
+  const mainStack = skills.filter((s) => s.main);
+
+  // Activity log: outcomes only, the newest dated ones (critique, Fase 7): roles joined and projects
+  // delivered. Starts of side projects are not news; everything here also appears on its own page.
+  const activity = [
+    ...experiences.map((e) => ({
+      id: `e-${e.id}`,
+      month: e.start,
+      text: `Joined ${e.company} as ${e.role}`,
+      href: "/experience",
+    })),
+    // Work or still-live deliveries only: a finished side project is not the first thing to read.
+    ...projects
+      .filter((p) => p.periodEnd && (p.kind === "work" || p.state === "live"))
+      .map((p) => ({
+        id: `p-${p.id}`,
+        month: p.periodEnd ?? p.periodStart,
+        text: `Delivered ${p.title}${p.state === "live" ? " · still live" : ""}`,
+        href: hasPage(p) ? `/projects/${p.slug}` : "/experience",
+      })),
+  ]
+    .sort((a, b) => b.month.localeCompare(a.month))
+    .slice(0, 5);
+
+  return (
+    <div className="shell-page ov">
+      <JsonLd
+        profile={profile}
+        jobTitle={current?.role}
+        org={current?.company}
+      />
+      <Meishi
+        name={profile.name}
+        role={profile.headline}
+        affiliation={current ? `${current.role}, ${current.company}` : null}
+        location={profile.location}
+        availability={profile.availability}
+        linkedin={linkedin}
+        hasCv={Boolean(profile.cvKey)}
+        tagline={profile.tagline}
+        servedBy={
+          site && <Diagram title="This site" architecture={site} compact />
+        }
+      >
+        <dl className="ov-ledger">
+          {months > 0 && (
+            <div>
+              <dt>shipping since {since}</dt>
+              <dd className="figure">{formatDuration(months)}</dd>
+            </div>
+          )}
+          {live.length > 0 && (
+            <div>
+              <dt>live systems</dt>
+              <dd className="figure">{live.length}</dd>
+            </div>
+          )}
+          {release && (
+            <div>
+              <dt>PolicySemVer on Marketplace</dt>
+              <dd className="figure">v{release}</dd>
+            </div>
+          )}
+        </dl>
+      </Meishi>
+
+      {onTable.length > 0 && (
+        <section aria-labelledby="on-the-table" className="ov-section">
+          <div className="ov-section__head">
+            <Heading level={2} id="on-the-table">
+              On the table
+            </Heading>
+            <Link href="/projects">All {projects.length} projects</Link>
+          </div>
+          <CardSpread>
+            {onTable.map((p) => (
+              <li key={p.id}>
+                <Card
+                  serial={projects.indexOf(p) + 1}
+                  title={p.title}
+                  href={hasPage(p) ? `/projects/${p.slug}` : undefined}
+                  status={<StateBadge state={p.state} />}
+                  ratio
+                >
+                  {p.tagline}
+                </Card>
+              </li>
+            ))}
+          </CardSpread>
+        </section>
+      )}
+
+      <div className="ov-columns">
+        {activity.length > 0 && (
+          <section aria-labelledby="activity" className="ov-section">
+            <Heading level={2} id="activity">
+              Activity log
+            </Heading>
+            <ol className="ov-log">
+              {activity.map((a) => (
+                <li key={a.id}>
+                  <time className="figure" dateTime={a.month}>
+                    {a.month}
+                  </time>
+                  <Link href={a.href}>{a.text}</Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+        {mainStack.length > 0 && (
+          <section aria-labelledby="stack" className="ov-section">
+            <Heading level={2} id="stack">
+              Main stack
+            </Heading>
+            <ul className="ov-stack">
+              {mainStack.map((s) => (
+                <li key={s.id}>
+                  <Badge tone="tag">{s.name}</Badge>
+                </li>
+              ))}
+            </ul>
+            <Link href="/skills">Every skill and where it was used</Link>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
 
-async function HealthNote() {
-  await connection(); // D1 only exists at request time, not during `next build` prerender
-  const row = await getHealth();
+type Profile = NonNullable<Awaited<ReturnType<typeof getProfile>>>;
+
+// ProfilePage + Person for search engines. No email, ever (docs/PLAN.md Fase 7).
+function JsonLd({
+  profile,
+  jobTitle,
+  org,
+}: {
+  profile: Profile;
+  jobTitle?: string;
+  org?: string;
+}) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: profile.name,
+      alternateName: profile.alternateNames,
+      jobTitle,
+      worksFor: org && { "@type": "Organization", name: org },
+      address: { "@type": "PostalAddress", addressLocality: profile.location },
+      sameAs: profile.links.map((l) => l.url),
+    },
+  };
   return (
-    <p data-testid="health-note">
-      {row
-        ? `${row.note} (${row.updatedAt.toISOString()})`
-        : "no health row yet"}
-    </p>
+    <script
+      type="application/ld+json"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON from our own D1 row, "<" escaped so it cannot close the tag.
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
+    />
   );
 }

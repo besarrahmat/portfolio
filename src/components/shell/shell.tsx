@@ -10,7 +10,7 @@ import { listSearchIndex } from "@/server/db/queries";
 import profile from "../../../content/seed/profile.json";
 import { CommandPalette } from "./command-palette";
 import { MenuDrawer } from "./menu-drawer";
-import { NAV } from "./nav";
+import { NAV, PAGES } from "./nav";
 import { Crumbs, SiteNav } from "./site-nav";
 import { ThemeControl } from "./theme";
 import "./shell.css";
@@ -19,13 +19,35 @@ import "./shell.css";
 const linkedin = profile.links.find((l) => l.kind === "linkedin")?.url ?? "";
 
 // The palette index is the only D1 read in the shell; it streams in, and a failure leaves pages-only search.
-async function IndexedPalette() {
+async function loadIndex() {
   await connection();
-  const index = await listSearchIndex().catch((error: unknown) => {
+  return listSearchIndex().catch((error: unknown) => {
     console.error("Search index unavailable:", error);
     return undefined;
   });
-  return <CommandPalette {...index} />;
+}
+
+async function IndexedPalette() {
+  const index = await loadIndex();
+  // Records without a page (no case study) are table rows only, so search leaves them out.
+  return (
+    <CommandPalette
+      projects={index?.projects.filter((p) => p.hasPage)}
+      skills={index?.skills}
+    />
+  );
+}
+
+// Same index: a project page's crumb shows its title instead of the slug (the slug stays the fallback).
+async function IndexedCrumbs() {
+  const index = await loadIndex();
+  return (
+    <Crumbs
+      titles={Object.fromEntries(
+        index?.projects.map((p) => [p.slug, p.title]) ?? [],
+      )}
+    />
+  );
 }
 
 // The admin-panel frame around every public page (docs/DESIGN.md §6): sidebar on desktop, menu sheet
@@ -49,8 +71,11 @@ export function Shell({ children }: { children: ReactNode }) {
           start={
             <>
               <MenuDrawer />
+              {/* Outer boundary: the fallback Crumbs reads usePathname, which must itself sit in Suspense. */}
               <Suspense>
-                <Crumbs />
+                <Suspense fallback={<Crumbs />}>
+                  <IndexedCrumbs />
+                </Suspense>
               </Suspense>
             </>
           }
@@ -75,7 +100,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </main>
         {/* Phones without JS cannot open the menu sheet; this list keeps every page reachable. */}
         <Footer>
-          <Navigation items={NAV} current="" label="All pages" />
+          <Navigation items={PAGES} current="" label="All pages" />
           <span>Besar Rachmat Ikhsan Pambudi</span>
         </Footer>
       </div>

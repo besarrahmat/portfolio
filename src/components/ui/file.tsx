@@ -47,7 +47,9 @@ export function File({
     setProgress(null);
     try {
       const res = await fetch(href);
-      if (!res.ok || !res.body) throw new Error(String(res.status));
+      // A redirect means the file is missing (/cv → /cv/unavailable); saving that HTML as the PDF would be wrong.
+      if (!res.ok || res.redirected || !res.body)
+        throw new Error(String(res.status));
       const total = Number(res.headers.get("content-length")) || 0;
       const reader = res.body.getReader();
       const chunks: BlobPart[] = [];
@@ -80,9 +82,10 @@ export function File({
 
   return (
     <span className="ui-file">
+      {/* No download attribute: the server names the file (Content-Disposition), and a missing file's
+          redirect must open its page rather than be saved under the PDF name (no-JS and modifier clicks). */}
       <a
         href={href}
-        download={filename}
         onClick={download}
         aria-busy={shown === "downloading" || undefined}
         className={cx(

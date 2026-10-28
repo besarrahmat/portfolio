@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
 import { type ReactNode, Suspense } from "react";
-import { NAV } from "@/components/shell/nav";
+import { PAGES } from "@/components/shell/nav";
 import { Accordion } from "@/components/ui/accordion";
 import { Alert } from "@/components/ui/alert";
 import { Avatar } from "@/components/ui/avatar";
@@ -64,7 +64,7 @@ import {
 import "./showcase.css";
 
 export const metadata: Metadata = {
-  title: "Design system · Besar Rachmat Ikhsan Pambudi",
+  title: "Design system",
   description:
     "Every component this portfolio is built from, with its states and accessibility notes, in component.gallery order.",
 };
@@ -360,7 +360,7 @@ const entries = (): Entry[] => [
           title="Sections"
           trigger={<Button variant="secondary">Open navigation</Button>}
         >
-          <Navigation items={NAV} current="/components" />
+          <Navigation items={PAGES} current="/components" />
         </Drawer>
         <Drawer
           side="bottom"
@@ -657,11 +657,11 @@ const entries = (): Entry[] => [
     children: (
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="max-w-60">
-          <Navigation items={NAV} current="/components" />
+          <Navigation items={PAGES} current="/components" />
         </div>
         <div className="showcase__frame self-start">
           <Navigation
-            items={NAV.slice(0, 4)}
+            items={PAGES.slice(0, 4)}
             current="/"
             layout="bar"
             label="Primary"

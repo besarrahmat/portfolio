@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { formatDuration, spanMonths } from "@/lib/format";
+import { formatSerial } from "./card";
 
 export type TimelineEntry = {
   id: string;
@@ -10,6 +11,8 @@ export type TimelineEntry = {
   /** "YYYY-MM", null = present */
   end: string | null;
   detail?: ReactNode;
+  /** Record number shown as "No. 001", like the cards (every record carries one). */
+  serial?: number;
 };
 
 // Progress indicator as a dated log: exact YYYY-MM stamps on one ruled baseline, duration computed, newest first.
@@ -38,6 +41,9 @@ export function Timeline({
             </span>
           </p>
           <div>
+            {e.serial !== undefined && (
+              <p className="ui-timeline__serial">{formatSerial(e.serial)}</p>
+            )}
             <p className="ui-timeline__title">{e.title}</p>
             {e.org && <p className="ui-timeline__org">{e.org}</p>}
             {e.detail && <div className="ui-timeline__detail">{e.detail}</div>}
