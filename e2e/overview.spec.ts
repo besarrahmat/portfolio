@@ -58,9 +58,11 @@ test("turning the card shows what serves it, keeps Download CV, and moves focus"
 }) => {
   await page.setViewportSize(desktop);
   await page.goto("/");
-  const turn = page.getByRole("button", { name: "Turn the card over" });
+  // The label says what the next press does (no aria-pressed on top of it).
+  const turn = page.locator(".meishi__turn");
+  await expect(turn).toHaveText(/^Turn the card over/);
   await turn.click();
-  await expect(turn).toHaveAttribute("aria-pressed", "true");
+  await expect(turn).toHaveText("Turn the card back");
   const back = page.getByRole("heading", { name: "This card is served by" });
   await expect(back).toBeFocused();
   await expect(
@@ -69,6 +71,10 @@ test("turning the card shows what serves it, keeps Download CV, and moves focus"
   await expect(
     card(page).getByRole("link", { name: "How it's built" }),
   ).toBeVisible();
+  // The back is the portfolio record's own diagram (one source), set compact.
+  const diagram = card(page).locator(".pd-diagram--compact");
+  await expect(diagram).toContainText("Cloudflare D1");
+  await expect(diagram.locator(".pd-link li").first()).toContainText("HTTPS");
   // The phrase in the one-liner is the second way in; turning back lands on the name.
   await turn.click();
   await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
@@ -80,12 +86,26 @@ test("ledger, featured records and activity come from D1", async ({ page }) => {
   await page.goto("/");
   const ledger = page.locator(".ov-ledger");
   await expect(ledger).toContainText(/\d+ yrs?( \d+ mo)?/);
-  await expect(ledger).toContainText("featured systems");
+  await expect(ledger).toContainText("live systems");
   await expect(ledger).toContainText("v1.0.1");
   const table = page.getByRole("region", { name: "On the table" });
   await expect(table.getByRole("link")).not.toHaveCount(0);
   await expect(table.getByRole("listitem").first()).toContainText("No. 001");
-  await expect(page.locator(".ov-log li")).toHaveCount(5);
+  // The link's accessible name is the record's title, not the whole card (screen readers).
+  await expect(
+    table.getByRole("link", { name: "SOBAT-PS", exact: true }),
+  ).toBeVisible();
+  // Live systems first, then this site itself (critique, Fase 7).
+  await expect(table.locator(".ui-card__title")).toHaveText([
+    "SOBAT-PS",
+    "PolicySemVer",
+    "This portfolio",
+  ]);
+  // Outcomes only: roles joined and projects delivered, never "Started …".
+  const log = page.locator(".ov-log li");
+  await expect(log).toHaveCount(5);
+  for (const text of await log.allInnerTexts())
+    expect(text).toMatch(/Joined|Delivered/);
 });
 
 test("head carries the static OG image and Person JSON-LD without an email", async ({

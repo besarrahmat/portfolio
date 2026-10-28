@@ -11,7 +11,7 @@ import { Link } from "@/components/ui/link";
 import { SearchInput } from "@/components/ui/search-input";
 import { type Column, Table } from "@/components/ui/table";
 import { listProjects } from "@/server/db/queries";
-import { KIND_LABEL, Period } from "./record";
+import { hasPage, KIND_LABEL, Period, StackSummary } from "./record";
 import { StateBadge } from "./state-badge";
 import "./projects.css";
 import Loading from "../loading";
@@ -22,11 +22,16 @@ export const metadata: Metadata = {
     "Every published project: what it is, its stack, when it ran and whether it is still live.",
 };
 
+// "Private repo" only when there is no public code to look at; SOBAT-PS has a public repo and a live site.
+const privateOnly = (p: { links: { kind: string; visibility: string }[] }) =>
+  p.links.some((l) => l.kind === "repo" && l.visibility === "private") &&
+  !p.links.some((l) => l.kind === "repo" && l.visibility === "public");
+
 type Row = Awaited<ReturnType<typeof listProjects>>[number] & {
   serial: number;
 };
 
-const SORTS = { no: "No.", name: "Name", newest: "Newest" } as const;
+const SORTS = { no: "Number", name: "Name", newest: "Newest" } as const;
 type Sort = keyof typeof SORTS;
 type Params = { kind?: string; q?: string; sort?: Sort; skill?: string };
 
@@ -116,10 +121,15 @@ async function ProjectsContent({ searchParams }: PageProps<"/projects">) {
       rowHeader: true,
       cell: (p) => (
         <span className="pj-name">
-          <NextLink href={`/projects/${p.slug}`}>{p.title}</NextLink>
-          {p.links.some((l) => l.visibility === "private") && (
-            <Badge>Private repo</Badge>
+          {hasPage(p) ? (
+            <NextLink href={`/projects/${p.slug}`}>{p.title}</NextLink>
+          ) : (
+            <>
+              {p.title}
+              <small className="pj-note">No write-up yet</small>
+            </>
           )}
+          {privateOnly(p) && <Badge>Private repo</Badge>}
         </span>
       ),
     },
@@ -127,7 +137,7 @@ async function ProjectsContent({ searchParams }: PageProps<"/projects">) {
     {
       key: "stack",
       header: "Stack",
-      cell: (p) => p.skills.map((s) => s.name).join(", "),
+      cell: (p) => <StackSummary skills={p.skills} />,
     },
     {
       key: "period",
@@ -146,8 +156,8 @@ async function ProjectsContent({ searchParams }: PageProps<"/projects">) {
     <div className="shell-page pj">
       <Heading level={1}>Projects</Heading>
       <p className="pj-intro">
-        {all.length} published projects, numbered in the order they matter.
-        Private ones are explained by their architecture instead of their code.
+        {all.length} projects, numbered by importance. Private ones are shown
+        through their architecture.
       </p>
 
       <div className="pj-controls">
@@ -191,9 +201,16 @@ async function ProjectsContent({ searchParams }: PageProps<"/projects">) {
       {filtered && (
         <p className="pj-status" role="status">
           {rows.length} of {all.length} projects
+          {kind && <> in {KIND_LABEL[kind]}</>}
           {skill && <> using {skill.name}</>}
-          {q && <> matching “{q}”</>}.{" "}
-          <Link href="/projects">Clear filters</Link>
+          {q && <> matching “{q}”</>}.
+          {/* With no rows the empty state already offers it once. */}
+          {rows.length > 0 && (
+            <>
+              {" "}
+              <Link href="/projects">Clear filters</Link>
+            </>
+          )}
         </p>
       )}
 
@@ -216,15 +233,19 @@ async function ProjectsContent({ searchParams }: PageProps<"/projects">) {
                 <Card
                   serial={p.serial}
                   title={p.title}
-                  href={`/projects/${p.slug}`}
+                  href={hasPage(p) ? `/projects/${p.slug}` : undefined}
                   status={<StateBadge state={p.state} />}
                   headingLevel={2}
                 >
                   <p>{p.tagline}</p>
+                  {p.skills.length > 0 && (
+                    <p className="pj-meta">
+                      <StackSummary skills={p.skills} />
+                    </p>
+                  )}
                   <p className="pj-meta">
                     {KIND_LABEL[p.kind]} · <Period project={p} />
-                    {p.links.some((l) => l.visibility === "private") &&
-                      " · Private repo"}
+                    {privateOnly(p) && " · Private repo"}
                   </p>
                 </Card>
               </li>

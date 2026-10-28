@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { cx } from "./cx";
 
 type BadgeProps = ComponentProps<"span"> & {
-  /** live = the single signal state (朱 + dot); expired = struck through meta; tag = stack chip. */
+  /** live = the single signal state (朱 + dot); expired = muted meta; tag = stack chip. */
   tone?: "neutral" | "live" | "expired" | "tag";
 };
 

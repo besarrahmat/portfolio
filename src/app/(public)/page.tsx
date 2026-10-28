@@ -8,12 +8,13 @@ import { experienceMonths } from "@/lib/experience";
 import { currentMonth, formatDuration } from "@/lib/format";
 import {
   getProfile,
-  listCertifications,
   listExperiences,
   listProjects,
   listSkills,
 } from "@/server/db/queries";
 import { Meishi } from "./meishi";
+import { Diagram } from "./projects/diagram";
+import { hasPage } from "./projects/record";
 import { StateBadge } from "./projects/state-badge";
 import "./overview.css";
 import Loading from "./loading";
@@ -31,14 +32,12 @@ export default function Overview() {
 // Persuade (docs/PLAN.md §7): who this is in five seconds, proof on the table, Download CV on the card.
 async function OverviewContent() {
   await connection(); // D1 only exists at request time
-  const [profile, projects, experiences, certifications, skills] =
-    await Promise.all([
-      getProfile(),
-      listProjects(),
-      listExperiences(),
-      listCertifications(),
-      listSkills(),
-    ]);
+  const [profile, projects, experiences, skills] = await Promise.all([
+    getProfile(),
+    listProjects(),
+    listExperiences(),
+    listSkills(),
+  ]);
   if (!profile) throw new Error("Profile row missing");
 
   const now = currentMonth(new Date());
@@ -47,13 +46,25 @@ async function OverviewContent() {
   const since = counted.map((e) => e.start).sort()[0];
   const current = experiences.find((e) => e.end === null);
   const featured = projects.filter((p) => p.featured);
+  const live = projects.filter((p) => p.state === "live");
+  // The back of the card is this site's own architecture record, so card and record never disagree.
+  const site = projects.find((p) => p.slug === "portfolio")?.architecture;
+  // On the table: proof a hiring tech lead can check now. Live systems first, then this site itself
+  // (the positioning's own proof), topped up from the featured order (critique, Fase 7; ✅ Rahmat).
+  const onTable = [
+    ...new Set([
+      ...featured.filter((p) => p.state === "live" || p.slug === "portfolio"),
+      ...featured,
+    ]),
+  ].slice(0, 3);
   const release = projects
     .find((p) => p.slug === "policy-semver")
     ?.metrics.find((m) => m.label === "Latest release")?.value;
   const linkedin = profile.links.find((l) => l.kind === "linkedin")?.url ?? "";
   const mainStack = skills.filter((s) => s.main);
 
-  // Activity log: the newest dated records already on the site, so it never disagrees with the pages.
+  // Activity log: outcomes only, the newest dated ones (critique, Fase 7): roles joined and projects
+  // delivered. Starts of side projects are not news; everything here also appears on its own page.
   const activity = [
     ...experiences.map((e) => ({
       id: `e-${e.id}`,
@@ -61,18 +72,15 @@ async function OverviewContent() {
       text: `Joined ${e.company} as ${e.role}`,
       href: "/experience",
     })),
-    ...projects.map((p) => ({
-      id: `p-${p.id}`,
-      month: p.periodStart,
-      text: `Started ${p.title}`,
-      href: `/projects/${p.slug}`,
-    })),
-    ...certifications.map((c) => ({
-      id: `c-${c.id}`,
-      month: c.issuedAt,
-      text: `Certified: ${c.name}`,
-      href: "/education",
-    })),
+    // Work or still-live deliveries only: a finished side project is not the first thing to read.
+    ...projects
+      .filter((p) => p.periodEnd && (p.kind === "work" || p.state === "live"))
+      .map((p) => ({
+        id: `p-${p.id}`,
+        month: p.periodEnd ?? p.periodStart,
+        text: `Delivered ${p.title}${p.state === "live" ? " · still live" : ""}`,
+        href: hasPage(p) ? `/projects/${p.slug}` : "/experience",
+      })),
   ]
     .sort((a, b) => b.month.localeCompare(a.month))
     .slice(0, 5);
@@ -93,6 +101,9 @@ async function OverviewContent() {
         linkedin={linkedin}
         hasCv={Boolean(profile.cvKey)}
         tagline={profile.tagline}
+        servedBy={
+          site && <Diagram title="This site" architecture={site} compact />
+        }
       >
         <dl className="ov-ledger">
           {months > 0 && (
@@ -101,10 +112,10 @@ async function OverviewContent() {
               <dd className="figure">{formatDuration(months)}</dd>
             </div>
           )}
-          {featured.length > 0 && (
+          {live.length > 0 && (
             <div>
-              <dt>featured systems</dt>
-              <dd className="figure">{featured.length}</dd>
+              <dt>live systems</dt>
+              <dd className="figure">{live.length}</dd>
             </div>
           )}
           {release && (
@@ -116,7 +127,7 @@ async function OverviewContent() {
         </dl>
       </Meishi>
 
-      {featured.length > 0 && (
+      {onTable.length > 0 && (
         <section aria-labelledby="on-the-table" className="ov-section">
           <div className="ov-section__head">
             <Heading level={2} id="on-the-table">
@@ -125,12 +136,12 @@ async function OverviewContent() {
             <Link href="/projects">All {projects.length} projects</Link>
           </div>
           <CardSpread>
-            {featured.slice(0, 3).map((p) => (
+            {onTable.map((p) => (
               <li key={p.id}>
                 <Card
                   serial={projects.indexOf(p) + 1}
                   title={p.title}
-                  href={`/projects/${p.slug}`}
+                  href={hasPage(p) ? `/projects/${p.slug}` : undefined}
                   status={<StateBadge state={p.state} />}
                   ratio
                 >

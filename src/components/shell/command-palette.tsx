@@ -5,7 +5,7 @@ import { Dialog } from "@base-ui/react/dialog";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/ui/icon";
-import { NAV } from "./nav";
+import { PAGES } from "./nav";
 
 type Entry = { href: string; label: string };
 type Group = { value: string; items: Entry[] };
@@ -56,7 +56,7 @@ export function CommandPalette({
   }, [mac, open]);
 
   const groups: Group[] = [
-    { value: "Pages", items: NAV },
+    { value: "Pages", items: PAGES },
     {
       value: "Projects",
       items: projects.map((p) => ({
@@ -66,7 +66,6 @@ export function CommandPalette({
     },
     {
       value: "Skills",
-      // shortcut: links to an anchor on /skills; Fase 7 gives each skill row id={skill.id}.
       items: skills.map((s) => ({ href: `/skills#${s.id}`, label: s.name })),
     },
   ].filter((g) => g.items.length > 0);

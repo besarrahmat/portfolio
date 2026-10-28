@@ -11,7 +11,16 @@
 }
 .pj-controls {
   display: grid;
-  gap: 16px;
+  gap: 8px;
+}
+/* The caption repeats the page heading for sighted readers; screen readers keep it. */
+.pj-table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .pj-search {
   display: flex;
@@ -52,6 +61,24 @@
   font-weight: 700;
   text-underline-offset: 3px;
 }
+.pj-stack {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  color: var(--ink-2);
+}
+.pj-stack b {
+  color: var(--ink);
+}
+.pj-stack small {
+  font-size: inherit;
+  color: var(--ink-3);
+}
+.pj-note {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
 .pj-meta {
   margin-top: 4px;
   color: var(--ink-3);
@@ -76,16 +103,149 @@
   .pj-controls {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
+    gap: 16px;
   }
   .pj-sort {
     grid-column: 1 / -1;
   }
 }
 
-/* ── Detail: header record, view tabs, panels ── */
+/* ── Detail: header record, diagram, story, properties ── */
 /* minmax(0, 1fr): the sideways-scrolling tab list must not widen the page on phones. */
 .pd {
   grid-template-columns: minmax(0, 1fr);
+  max-width: 80rem;
+}
+/* Properties: a ruled definition list on stock, like an admin record's side panel. */
+.pd-props dl {
+  display: grid;
+  padding: 8px 16px;
+  background: var(--stock);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-flat);
+}
+.pd-props dl > * {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+.pd-props dl > :last-child {
+  border-bottom: 0;
+}
+.pd-props dt {
+  color: var(--ink-3);
+}
+.pd-props dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.pd-props__state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+.pd-props__state .ui-badge {
+  font-size: var(--text-sm);
+}
+/* The hostname is the proof: never broken at its hyphen. */
+.pd-props__state .ui-link {
+  white-space: nowrap;
+}
+/* Stand-alone links in the properties keep the house touch target (docs/DESIGN.md §8). */
+.pd-stack a,
+.pd-links .ui-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+}
+.pd-props__muted {
+  color: var(--ink-3);
+}
+.pd-body {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+/* The record never dead-ends: previous · all · next, on one ruled line. */
+/* Three fixed slots so "All projects" stays centred whether or not a previous/next record exists. */
+.pd-next {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: var(--text-sm);
+}
+.pd-next a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--control-h);
+  color: var(--ink);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+.pd-next small {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+.pd-next a[rel="next"] {
+  justify-self: end;
+  text-align: right;
+}
+.pd-next__back {
+  transform: scaleX(-1);
+}
+@media (min-width: 1024px) {
+  .pd {
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    column-gap: 48px;
+    align-items: start;
+  }
+  /* In the narrow rail the label sits above its value. */
+  .pd-props dl > * {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .pd-props dt {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  /* head | key facts, then the diagram across both columns, then story | more facts, then next. */
+  .pd-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .pd-props--key {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .pd-arch {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .pd-body {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .pd-props--more {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .pd-next {
+    grid-column: 1;
+    grid-row: 4;
+  }
 }
 .pd-head {
   display: grid;
@@ -102,38 +262,10 @@
   line-height: var(--leading-ui);
   text-wrap: pretty;
 }
-.pd-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  font-size: var(--text-sm);
-  color: var(--ink-3);
-}
-.pd-tabs {
-  border-bottom: 1px solid var(--rule);
-}
-.pd-tabs ul {
-  display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  list-style: none;
-  padding: 0;
-  scrollbar-width: thin;
-}
-.pd-tabs a {
-  text-decoration: none;
-}
-/* The current view carries the ink underline the Base UI tabs draw with their indicator. */
-.pd-tabs a[aria-current] {
-  box-shadow: inset 0 -2px 0 var(--ink);
-}
 .pd-panel {
   display: grid;
   gap: 32px;
   max-width: var(--measure);
-}
-.pd-panel--wide {
-  max-width: none;
 }
 .pd-prose {
   display: grid;
@@ -142,6 +274,7 @@
   text-wrap: pretty;
 }
 .pd-prose ul {
+  list-style: disc;
   padding-left: 20px;
   display: grid;
   gap: 4px;
@@ -155,8 +288,8 @@
 }
 .pd-metrics > div {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
   gap: 4px;
 }
 .pd-metrics dt {
@@ -178,101 +311,15 @@
   color: var(--ink-3);
 }
 
-/* Architecture: columns of nodes from data (src/lib/diagram.ts); rows on phones, columns from 768 px. */
-.pd-diagram {
-  display: grid;
-  gap: 24px;
-  padding: 24px;
-  background: var(--stock);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-flat);
-}
-.pd-layers {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: 24px;
-}
-.pd-layer {
-  position: relative;
-  display: grid;
-  gap: 8px;
-  list-style: none;
-  padding: 0;
-}
-/* A hairline with an arrowhead between layers: down on phones, across on wide screens. */
-.pd-layers > li + li::before {
-  content: "";
-  position: absolute;
-  left: 24px;
-  top: -20px;
-  width: 1px;
-  height: 14px;
-  background: var(--ink-3);
-}
-.pd-layers > li + li::after {
-  content: "";
-  position: absolute;
-  left: 20.5px;
-  top: -8px;
-  width: 8px;
-  height: 5px;
-  background: var(--ink-3);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-}
-.pd-layers > li {
-  position: relative;
-}
-.pd-node {
-  display: grid;
-  gap: 2px;
-  padding: 8px 16px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-control);
-  line-height: var(--leading-ui);
-}
-.pd-node b {
-  overflow-wrap: anywhere;
-}
-.pd-node span {
-  font-size: var(--text-xs);
-  color: var(--ink-3);
-}
-/* Actors are people, not boxes we run: dashed edge. */
-.pd-node--actor {
-  border-style: dashed;
-}
-.pd-edges {
-  font-size: var(--text-sm);
-  color: var(--ink-2);
-}
-.pd-edges .ui-icon {
-  display: inline-block;
-  vertical-align: -3px;
-}
-.pd-edges ul {
-  margin-top: 8px;
-  padding-left: 20px;
-  display: grid;
-  gap: 4px;
-}
 .pd-links {
   list-style: none;
   padding: 0;
-  border-top: 1px solid var(--rule);
-}
-.pd-links li {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 4px 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--rule);
+  display: grid;
+  gap: 4px;
 }
 .pd-links span {
   color: var(--ink-3);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 .pd-stack {
   list-style: none;

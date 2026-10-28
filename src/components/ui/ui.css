@@ -249,9 +249,9 @@
     border-radius: 50%;
     background: currentColor;
   }
+  /* Expired is a plain fact in ink-3 (struck-through text read as "deleted"; critique, Fase 7). */
   .ui-badge--expired {
-    text-decoration: line-through;
-    text-decoration-thickness: 1px;
+    color: var(--ink-3);
   }
   .ui-badge--tag {
     padding: 0 8px;
@@ -302,9 +302,12 @@
     display: grid;
     justify-items: start;
     gap: 8px;
-    padding: 32px 16px;
-    border: 1px dashed var(--line-strong);
+    padding: 24px;
+    /* A blank record slip on the table, not a dashed placeholder box. */
+    background: var(--stock);
+    border: 1px solid var(--rule);
     border-radius: var(--radius-card);
+    box-shadow: var(--shadow-flat);
   }
   .ui-empty-state__title {
     font-weight: 700;
@@ -360,10 +363,31 @@
       box-shadow var(--dur-ui) var(--ease-out),
       color var(--dur-ui) var(--ease-out);
   }
+  .ui-card--link {
+    position: relative;
+  }
   .ui-card--link:hover,
-  .ui-card--link:focus-visible {
+  .ui-card--link:focus-within {
     translate: 0 -4px;
     box-shadow: var(--shadow-lift);
+  }
+  .ui-card__link {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* The title link covers the card; the focus ring goes on the card, not around the title. */
+  .ui-card__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .ui-card__link:focus-visible {
+    outline: none;
+  }
+  .ui-card--link:has(.ui-card__link:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
   }
   .ui-card__top {
     display: flex;
@@ -393,10 +417,10 @@
     gap: 8px;
   }
   /* Focus lifts one record and dims the rest to ink-3 (still AA; no opacity). */
-  .ui-card-spread:has(.ui-card--link:hover, .ui-card--link:focus-visible)
-    .ui-card--link:not(:hover, :focus-visible),
-  .ui-card-spread:has(.ui-card--link:hover, .ui-card--link:focus-visible)
-    .ui-card--link:not(:hover, :focus-visible)
+  .ui-card-spread:has(.ui-card--link:hover, .ui-card--link:focus-within)
+    .ui-card--link:not(:hover, :focus-within),
+  .ui-card-spread:has(.ui-card--link:hover, .ui-card--link:focus-within)
+    .ui-card--link:not(:hover, :focus-within)
     .ui-card__body {
     color: var(--ink-3);
   }
@@ -408,16 +432,14 @@
     .ui-card-spread--2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    /* Printed like a card: serial and title at the top, the tagline set at the foot, no empty band. */
     .ui-card--ratio {
       aspect-ratio: 91 / 55;
-      grid-template-rows: auto 1fr auto auto;
+      grid-template-rows: auto auto 1fr;
       padding: 16px 24px;
     }
-    .ui-card--ratio .ui-card__title {
-      grid-row: 3;
-    }
     .ui-card--ratio .ui-card__body {
-      grid-row: 4;
+      align-self: end;
     }
   }
 
@@ -484,6 +506,11 @@
   .ui-timeline > li[aria-current] .ui-timeline__stamp > span:not([class]) {
     color: var(--ink);
     font-weight: 700;
+  }
+  .ui-timeline__serial {
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+    line-height: var(--leading-ui);
   }
   .ui-timeline__title {
     font-weight: 700;
@@ -1371,9 +1398,11 @@
     outline: 0;
     overflow-wrap: anywhere;
   }
+  /* A tint, not an inverted bar: the highlight stays in the hairline world (critique, Fase 7). */
   .ui-menu__item[data-highlighted] {
-    background: var(--ink);
-    color: var(--stock);
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+    color: var(--ink);
+    font-weight: 700;
   }
   .ui-menu__item[data-disabled] {
     color: var(--ink-3);
@@ -1682,7 +1711,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .ui-card--link:hover,
-    .ui-card--link:focus-visible,
+    .ui-card--link:focus-within,
     .ui-file__button:hover,
     .ui-button:active:not(:disabled) {
       translate: none;

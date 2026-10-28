@@ -10,14 +10,21 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      testIgnore: /cv-missing\.spec\.ts/,
+      testIgnore: /(cv-missing|email)\.spec\.ts/,
     },
-    // Edits the shared local D1 (empties the CV key), so it runs alone after everything else. Local only.
+    // These edit the shared local D1 (CV key, email alias), so they run after everything else and one after
+    // the other: two wrangler writes at once lock the local SQLite file. Local only.
     {
-      name: "cv-missing",
+      name: "local-d1-cv",
       use: { ...devices["Desktop Chrome"] },
       testMatch: /cv-missing\.spec\.ts/,
       dependencies: ["chromium"],
+    },
+    {
+      name: "local-d1-email",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /email\.spec\.ts/,
+      dependencies: ["local-d1-cv"],
     },
   ],
   webServer: process.env.BASE_URL

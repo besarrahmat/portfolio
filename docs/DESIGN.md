@@ -203,3 +203,15 @@ Mode Operate, dunia meishi dalam bentuk tertahan. Komposisi mengikuti sketsa §6
 - **Palette:** sheet stock `--shadow-float`, input 44 px, grup Pages/Projects/Skills berlabel huruf kapital `--tracking-label`, item terpilih terbalik (isi ink) seperti menu.
 - **Tema:** satu script `<head>` membaca `localStorage.theme`; server tidak pernah tahu tema (HTML sama untuk semua).
 - **Critique (25 Okt 2026): 29/40, Good**, detector `[]`, overlay bersih. Setelah critique: petunjuk tombol palette, skeleton loading berbentuk halaman, footer disembunyikan di desktop, label cari "Search pages, projects, skills". Detector tetap `[]`.
+
+## 10. Halaman publik (Fase 7)
+
+- **Sisi belakang meishi** = komponen `Diagram` yang sama dengan record, varian `compact` (baris tercetak: nama node, panah + label hop), dari data arsitektur record `portfolio`; kartu di HP ±321 px karena sisi belakang menentukan tinggi.
+- **Overview:** meishi 91:55 (boleh lebih tinggi bila sisi belakang butuh; tinggi sama di kedua sisi), sisi belakang bergaya cetak: judul `text-lg`, baris bergaris, setiap hop berlabel (HTTPS, SQL · objects); tombol berganti "Turn the card over" / "Turn the card back". Meja: sistem live dulu, lalu situs ini sendiri. Ledger: pengalaman, **live systems**, rilis PolicySemVer. Activity log hanya hasil (Joined / Delivered kerja atau live).
+- **Projects:** tabel ≥ 768 px, kartu record di HP; kolom Stack = main stack bertinta penuh + maks. 2 lainnya + "+N". Filter/cari/sort di URL.
+- **Detail record (tanpa tab):** fakta kunci (State + link live, Period, Stack) → **diagram selebar halaman** → cerita → fakta lain (Role, Kind, Links) → footer sebelumnya · All projects · berikutnya. Desktop: fakta di rail kanan. Record tanpa case study = baris tabel saja.
+- **Diagram arsitektur:** node = record stock di atas meja (`--shadow-flat`), aktor = garis putus-putus tanpa stock; konektor = panah + label hop, ujung disebut hanya bila gambar ambigu (fan-out/multi-sumber/lompat layer); kurung fan-out di sisi grup; kiri→kanan hanya untuk ≤ 3 layer dan bila figure ≥ 44rem (container query), selain itu atas→bawah. Daftar Connections hanya untuk screen reader.
+- **Nav utama** 6 item; Design system di footer, palette, dan record `portfolio`.
+- **Critique (25 Okt 2026):** dual-agent 26/36 → **29/36 (Good)**, detector `[]`, overlay bersih. Sisa P3 dicatat di `docs/PLAN.md` Fase 7 (Hasil gerbang).
+- **Polish (25 Okt 2026, setelah critique):** Card berlink = link di judul saja + `::after` menutup kartu (nama aksesibel = judul; cincin fokus di kartu lewat `:has(:focus-visible)`); kartu 91:55 = serial + judul di atas, tagline di kaki. Empty state = slip stock bergaris. Highlight item menu = tint `ink` 10% + tebal (forced-colors tetap `Highlight`). Badge Expired = teks ink-3 tanpa coretan. Record bacaan (Experience, gelar, sertifikat) ikut bernomor seri. Contact ditutup dengan meishi tanpa flip dan tanpa tombol CV (dock tetap satu-satunya primer).
+

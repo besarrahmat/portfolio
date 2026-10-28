@@ -64,3 +64,22 @@ test.describe("CV missing from storage", () => {
     );
   });
 });
+
+test.describe("CV key set but the file is gone from R2", () => {
+  test.beforeAll(() => setCvKey("cv/missing.pdf"));
+  test.afterAll(() => setCvKey(CV_KEY));
+
+  test("plain CV links open the friendly page instead of saving it as the PDF", async ({
+    page,
+  }) => {
+    await page.goto("/contact");
+    await page
+      .getByRole("main")
+      .getByRole("link", { name: /CV\.pdf/ })
+      .click();
+    await expect(page).toHaveURL(/\/cv\/unavailable$/);
+    await expect(
+      page.getByRole("heading", { name: "The CV is not available right now" }),
+    ).toBeVisible();
+  });
+});

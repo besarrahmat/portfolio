@@ -17,14 +17,11 @@ type MeishiProps = {
   tagline: string;
   /** Set on the table beside the card: the ledger. */
   children?: React.ReactNode;
+  /** The back: this site's architecture, rendered by the same Diagram as its project record (one source). */
+  servedBy?: React.ReactNode;
 };
 
 // What serves this very card (docs/DESIGN.md §3): drawn from this list, not a picture.
-const SERVED_BY = [
-  { name: "Browser", detail: "this page" },
-  { name: "Worker", detail: "Cloudflare · Next.js 16 · Hono" },
-  { name: "D1 + R2", detail: "content, files" },
-];
 
 const FILE = "Besar-Rachmat-Ikhsan-Pambudi-CV.pdf";
 
@@ -85,11 +82,18 @@ export function Meishi(props: MeishiProps) {
         <button
           type="button"
           className="meishi__turn shell-js"
-          aria-pressed={turned}
           onClick={() => turn(!turned)}
         >
           <Icon name="flip" />
-          Turn the card over
+          {/* The label says what the next press does, so no aria-pressed on top of it. */}
+          {turned ? (
+            "Turn the card back"
+          ) : (
+            <>
+              Turn the card over
+              <small>to see what serves this site</small>
+            </>
+          )}
         </button>
       </div>
       <div className="ov-table">
@@ -151,13 +155,7 @@ function Card({
           <h2 ref={back} tabIndex={-1}>
             This card is served by
           </h2>
-          <ol className="meishi__flow">
-            {SERVED_BY.map((n) => (
-              <li key={n.name}>
-                <b>{n.name}</b> {n.detail}
-              </li>
-            ))}
-          </ol>
+          {props.servedBy}
         </div>
         <div className="meishi__foot">
           <Link href="/projects/portfolio">How it's built</Link>

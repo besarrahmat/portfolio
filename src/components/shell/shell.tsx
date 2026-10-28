@@ -10,7 +10,7 @@ import { listSearchIndex } from "@/server/db/queries";
 import profile from "../../../content/seed/profile.json";
 import { CommandPalette } from "./command-palette";
 import { MenuDrawer } from "./menu-drawer";
-import { NAV } from "./nav";
+import { NAV, PAGES } from "./nav";
 import { Crumbs, SiteNav } from "./site-nav";
 import { ThemeControl } from "./theme";
 import "./shell.css";
@@ -28,7 +28,14 @@ async function loadIndex() {
 }
 
 async function IndexedPalette() {
-  return <CommandPalette {...(await loadIndex())} />;
+  const index = await loadIndex();
+  // Records without a page (no case study) are table rows only, so search leaves them out.
+  return (
+    <CommandPalette
+      projects={index?.projects.filter((p) => p.hasPage)}
+      skills={index?.skills}
+    />
+  );
 }
 
 // Same index: a project page's crumb shows its title instead of the slug (the slug stays the fallback).
@@ -93,7 +100,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </main>
         {/* Phones without JS cannot open the menu sheet; this list keeps every page reachable. */}
         <Footer>
-          <Navigation items={NAV} current="" label="All pages" />
+          <Navigation items={PAGES} current="" label="All pages" />
           <span>Besar Rachmat Ikhsan Pambudi</span>
         </Footer>
       </div>

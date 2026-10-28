@@ -21,6 +21,16 @@ test.describe("index", () => {
     await expect(rows(page).first()).toContainText("SOBAT-PS");
   });
 
+  test("the Stack column leads with the main stack and folds the rest", async ({
+    page,
+  }) => {
+    await page.goto("/projects");
+    const sobat = rows(page).filter({ hasText: "SOBAT-PS" });
+    await expect(sobat.locator(".pj-stack b")).toHaveText(["Laravel", "PHP"]);
+    const nikke = rows(page).filter({ hasText: "NIKKE" });
+    await expect(nikke.locator(".pj-stack small")).toContainText(/^\+\d+/);
+  });
+
   test("kind filter, search and sort live in the URL", async ({ page }) => {
     await page.goto("/projects");
     const filter = page.getByRole("navigation", { name: "Filter by kind" });
@@ -74,58 +84,102 @@ test.describe("index", () => {
 test.describe("detail", () => {
   test.use({ viewport: desktop });
 
-  test("views are tabs in ?tab=, so Back and shared links work", async ({
+  test("the record opens with its diagram, then the story; old ?tab= links land on the same page", async ({
     page,
   }) => {
-    await page.goto("/projects/sobat-ps");
-    const views = page.getByRole("navigation", { name: "Project views" });
-    await views.getByRole("link", { name: "Architecture" }).click();
-    await expect(page).toHaveURL(/tab=architecture/);
-    await expect(views.locator('[aria-current="page"]')).toHaveText(
-      "Architecture",
-    );
-    await page.goBack();
-    await expect(views.locator('[aria-current="page"]')).toHaveText("Overview");
-
-    await page.goto("/projects/sobat-ps?tab=nonsense");
-    await expect(views.locator('[aria-current="page"]')).toHaveText("Overview");
+    for (const path of [
+      "/projects/sobat-ps",
+      "/projects/sobat-ps?tab=architecture",
+    ]) {
+      await page.goto(path);
+      await expect(
+        page.getByRole("navigation", { name: "Project views" }),
+      ).toHaveCount(0);
+      const diagram = page.getByRole("region", { name: "Architecture" });
+      const story = page.getByRole("heading", { name: "Problem" });
+      await expect(diagram).toBeVisible();
+      const [d, st] = [await diagram.boundingBox(), await story.boundingBox()];
+      expect(d && st && d.y < st.y).toBe(true);
+    }
   });
 
   test("the diagram is drawn from the architecture JSON", async ({ page }) => {
     const sobat = published.find((p) => p.slug === "sobat-ps");
-    await page.goto("/projects/sobat-ps?tab=architecture");
-    const nodes = page.locator(".pd-node");
+    await page.goto("/projects/sobat-ps");
+    const nodes = page.locator(".pd-arch .pd-node");
     await expect(nodes).toHaveCount(sobat?.architecture?.nodes.length ?? -1);
     for (const n of sobat?.architecture?.nodes ?? [])
       await expect(nodes.filter({ hasText: n.label })).toHaveCount(1);
-    await expect(page.locator(".pd-edges li")).toHaveCount(
+    // Every edge is drawn as a labelled connector and listed for screen readers.
+    await expect(page.locator(".pd-link li")).toHaveCount(
+      sobat?.architecture?.edges.length ?? -1,
+    );
+    await expect(page.locator(".pd-diagram figcaption li")).toHaveCount(
       sobat?.architecture?.edges.length ?? -1,
     );
   });
 
-  test("views without data are left out, not shown empty", async ({ page }) => {
-    await page.goto("/projects/htsi-web-profile");
-    const views = page.getByRole("navigation", { name: "Project views" });
-    await expect(views.getByRole("link", { name: "Architecture" })).toHaveCount(
-      0,
-    );
-    await expect(views.getByRole("link", { name: "Links" })).toHaveCount(0);
-    await page.goto("/projects/htsi-web-profile?tab=links");
-    await expect(views.locator('[aria-current="page"]')).toHaveText("Overview");
-  });
-
-  test("private repos carry a badge and no URL; the crumb names the record", async ({
+  test("a record without a case study is a table row only, with no page", async ({
     page,
   }) => {
-    await page.goto("/projects/sobat-ps?tab=links");
-    await expect(page.locator(".pd-links")).toContainText("Private repo");
+    await page.goto("/projects");
+    const row = rows(page).filter({ hasText: "PT HTSI web profile" });
+    await expect(row).toContainText("No write-up yet");
+    await expect(row.getByRole("link")).toHaveCount(0);
+    await page.goto("/projects/htsi-web-profile");
+    await expect(
+      page.getByRole("heading", { name: "Page not found" }),
+    ).toBeVisible();
+  });
+
+  test("facts sit with the record: live link by the Live state, private repos badged, crumb named", async ({
+    page,
+  }) => {
+    await page.goto("/projects/sobat-ps");
+    const facts = page.getByRole("complementary", { name: "Project facts" });
+    await expect(
+      facts.locator(".pd-props__state").getByRole("link", {
+        name: /sobat-ps\.kaltaraprov\.go\.id/,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("complementary", { name: "More about this project" }),
+    ).toContainText("Private repo");
     await expect(
       page.getByRole("banner").getByRole("navigation", { name: "Breadcrumb" }),
     ).toContainText("SOBAT-PS");
   });
 
+  test("the record never dead-ends: next project and all projects", async ({
+    page,
+  }) => {
+    await page.goto("/projects/sobat-ps");
+    const more = page.getByRole("navigation", { name: "More projects" });
+    await expect(
+      more.getByRole("link", { name: "All projects" }),
+    ).toBeVisible();
+    await more.getByRole("link", { name: /PolicySemVer/ }).click();
+    await expect(page).toHaveURL(/\/projects\/policy-semver$/);
+    await expect(
+      page
+        .getByRole("navigation", { name: "More projects" })
+        .getByRole("link", { name: /SOBAT-PS/ }),
+    ).toBeVisible();
+  });
+
+  test("Design system is reachable from the portfolio record", async ({
+    page,
+  }) => {
+    await page.goto("/projects/portfolio");
+    await page
+      .getByRole("complementary", { name: "More about this project" })
+      .getByRole("link", { name: "Design system" })
+      .click();
+    await expect(page).toHaveURL(/\/components$/);
+  });
+
   test("a stack chip lists the other projects using it", async ({ page }) => {
-    await page.goto("/projects/sobat-ps?tab=stack");
+    await page.goto("/projects/sobat-ps");
     await page.locator(".pd-stack a", { hasText: "Laravel" }).click();
     await expect(page).toHaveURL(/skill=/);
     await expect(page.locator(".pj-status")).toContainText("using Laravel");
@@ -154,7 +208,7 @@ for (const [label, viewport] of [
     await page.setViewportSize(viewport);
     await page.goto("/");
     await page
-      .locator(".ov-section")
+      .getByRole("region", { name: "On the table" })
       .getByRole("link", { name: /SOBAT-PS/ })
       .click();
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -172,10 +226,7 @@ for (const [label, viewport] of [
 
 test("no horizontal scroll at 320 px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
-  for (const path of [
-    "/projects",
-    "/projects/nikke-calculator?tab=architecture",
-  ]) {
+  for (const path of ["/projects", "/projects/nikke-calculator"]) {
     await page.goto(path);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(
@@ -188,10 +239,7 @@ test("no serious axe violations on the index and a detail view", async ({
   page,
 }) => {
   for (const scheme of ["light", "dark"] as const)
-    for (const path of [
-      "/projects",
-      "/projects/policy-semver?tab=architecture",
-    ]) {
+    for (const path of ["/projects", "/projects/policy-semver"]) {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(path);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

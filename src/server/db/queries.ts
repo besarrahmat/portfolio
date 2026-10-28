@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import { cache } from "react";
 import { z } from "zod";
 
@@ -161,7 +161,14 @@ export const listSearchIndex = cache(async () => {
   const db = getDb();
   const [projectRows, skillRows] = await Promise.all([
     db
-      .select({ slug: projects.slug, title: projects.title })
+      .select({
+        slug: projects.slug,
+        title: projects.title,
+        // Only records with a case study get a page (Fase 7): the rest are table rows.
+        hasPage: sql<boolean>`${projects.caseStudy} is not null`.mapWith(
+          Boolean,
+        ),
+      })
       .from(projects)
       .where(eq(projects.status, "published"))
       .orderBy(asc(projects.sortOrder)),

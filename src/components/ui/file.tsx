@@ -82,9 +82,10 @@ export function File({
 
   return (
     <span className="ui-file">
+      {/* No download attribute: the server names the file (Content-Disposition), and a missing file's
+          redirect must open its page rather than be saved under the PDF name (no-JS and modifier clicks). */}
       <a
         href={href}
-        download={filename}
         onClick={download}
         aria-busy={shown === "downloading" || undefined}
         className={cx(
